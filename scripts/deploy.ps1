@@ -34,7 +34,9 @@ Write-Host "==> Migrations"
 php artisan migrate --force
 
 Write-Host "==> Storage link"
-php artisan storage:link 2>$null
+if (-not (Test-Path "public\storage")) {
+    php artisan storage:link
+}
 
 if ($Production) {
     Write-Host "==> Cache production"

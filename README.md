@@ -41,7 +41,9 @@ Ou sous Windows / Composer :
 composer run deploy   # après npm run build sur le serveur
 ```
 
-**Production** : `APP_DEBUG=false`, HTTPS, `php artisan storage:link`, droits écriture sur `storage/` et `bootstrap/cache/`.
+**Production** : PHP **8.3.31+** (ou 8.4+), `APP_DEBUG=false`, HTTPS, `php artisan storage:link`, droits écriture sur `storage/` et `bootstrap/cache/`.
+
+Le `composer.lock` est figé pour PHP 8.3 (`config.platform.php` dans `composer.json`). Ne pas régénérer le lock avec PHP 8.5+ sans cette contrainte, sinon le déploiement en 8.3 échouera.
 
 Ne jamais versionner `.env`. Le build front (`public/build/`) doit exister sur le serveur (généré par `npm run build`).
 

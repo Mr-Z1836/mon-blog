@@ -25,7 +25,22 @@ Le seeder crée **5 catégories**, **15 tags**, **17 articles** longs (contexte 
 
 Bases MySQL : exécuter `scripts/create-databases.sql` si besoin.
 
-## Déploiement production
+## Déploiement Railway
+
+1. Crée un projet Railway avec **deux services** : l'app (GitHub `mon-blog`) + **MySQL**.
+2. Lie le service MySQL au service web (Variables → référence du plugin MySQL).
+3. Variables obligatoires sur le service web :
+   - `APP_KEY` → `php artisan key:generate --show` en local
+   - `APP_URL` → URL Railway du service web
+   - `APP_ENV=production`, `APP_DEBUG=false`
+   - `BLOG_CONTACT_EMAIL`, `BLOG_TAGLINE`, etc.
+4. **Ne fixe pas** `DB_HOST=127.0.0.1` sur Railway — l'app lit `MYSQLHOST` du plugin MySQL.
+5. Premier déploiement : `RUN_DB_SEED=true` (puis repasse à `false`).
+6. Start command (déjà dans `railway.toml`) : `bash scripts/railway-start.sh`
+
+Erreur `Connection refused ... 127.0.0.1:3306` → MySQL non lié ou `DB_HOST` forcé en local sur Railway.
+
+## Déploiement production (VPS / mutualisé)
 
 1. Uploader le projet (sans `vendor/`, `node_modules/`, `.env`).
 2. Sur le serveur, copier `.env.production.example` → `.env` et renseigner `APP_URL`, `DB_*`, mail.

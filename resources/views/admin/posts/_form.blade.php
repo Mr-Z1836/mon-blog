@@ -1,4 +1,4 @@
-@if ($errors->any())
+﻿@if ($errors->any())
     <div class="mb-4 rounded bg-red-100 p-3 text-red-700">
         <ul class="list-disc ps-5">
             @foreach ($errors->all() as $error)
@@ -73,21 +73,45 @@
     <div>
         <label class="block text-sm font-medium">Contenu (éditeur riche)</label>
         <input type="hidden" name="content_html" value="{{ old('content_html', $post->content_html ?? '') }}">
-        <div id="tiptap-editor" class="mt-1 min-h-[200px] rounded-md border border-gray-300 bg-white p-3 prose max-w-none"></div>
+        <div id="tiptap-editor" class="article-body mt-1 min-h-[200px] rounded-md border border-gray-300 bg-white p-3 prose max-w-none"></div>
         <textarea name="content" rows="8" class="mt-2 w-full rounded-md border-gray-300" required>{{ old('content', $post->content ?? '') }}</textarea>
     </div>
     <div>
         <label class="block text-sm font-medium">URL YouTube (embed)</label>
         <input name="youtube_url" value="{{ old('youtube_url', $post->youtube_url ?? '') }}" class="mt-1 w-full rounded-md border-gray-300" placeholder="https://www.youtube.com/watch?v=..." />
     </div>
-    <div class="grid gap-4 md:grid-cols-2">
-        <div>
-            <label class="block text-sm font-medium">Meta title (SEO)</label>
-            <input name="meta_title" value="{{ old('meta_title', $post->meta_title ?? '') }}" class="mt-1 w-full rounded-md border-gray-300" />
+    <div class="rounded-lg border border-brand-green/30 bg-brand-green/5 p-4">
+        <p class="text-sm font-semibold text-slate-800">Appel à l'action (CTA)</p>
+        <p class="mt-1 text-xs text-slate-600">Bloc optionnel affiché en bas de l'article. Laisse vide pour ne rien afficher.</p>
+        <div class="mt-4 grid gap-4">
+            <div>
+                <label class="block text-sm font-medium">Titre du CTA</label>
+                <input name="cta_title" value="{{ old('cta_title', $post->cta_title ?? '') }}" class="mt-1 w-full rounded-md border-gray-300" placeholder="Ex. : Prêt à passer à l'action ?" />
+            </div>
+            <div class="grid gap-4 md:grid-cols-2">
+                <div>
+                    <label class="block text-sm font-medium">Texte du bouton</label>
+                    <input name="cta_text" value="{{ old('cta_text', $post->cta_text ?? '') }}" class="mt-1 w-full rounded-md border-gray-300" placeholder="Ex. : Me contacter" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">URL du bouton</label>
+                    <input name="cta_url" value="{{ old('cta_url', $post->cta_url ?? '') }}" class="mt-1 w-full rounded-md border-gray-300" placeholder="/contact ou https://..." />
+                </div>
+            </div>
         </div>
-        <div>
-            <label class="block text-sm font-medium">Meta description</label>
-            <input name="meta_description" value="{{ old('meta_description', $post->meta_description ?? '') }}" class="mt-1 w-full rounded-md border-gray-300" />
+    </div>
+    <div class="rounded-lg border border-brand-red/20 bg-brand-red/5 p-4">
+        <p class="text-sm font-semibold text-slate-800">SEO & partage social</p>
+        <p class="mt-1 text-xs text-slate-600">Utilisé pour Google, WhatsApp, Twitter/X et LinkedIn. Laisse vide pour générer automatiquement depuis le titre et l'extrait.</p>
+        <div class="mt-4 grid gap-4 md:grid-cols-2">
+            <div>
+                <label class="block text-sm font-medium">Meta title</label>
+                <input name="meta_title" value="{{ old('meta_title', $post->meta_title ?? '') }}" maxlength="255" class="mt-1 w-full rounded-md border-gray-300" placeholder="Titre affiché dans les résultats Google" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium">Meta description</label>
+                <input name="meta_description" value="{{ old('meta_description', $post->meta_description ?? '') }}" maxlength="500" class="mt-1 w-full rounded-md border-gray-300" placeholder="Résumé ~150 caractères recommandé" />
+            </div>
         </div>
     </div>
     <div class="grid gap-4 md:grid-cols-2">

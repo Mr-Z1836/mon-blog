@@ -14,7 +14,16 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Plus Jakarta Sans', ...defaultTheme.fontFamily.sans],
+                serif: ['Source Serif 4', ...defaultTheme.fontFamily.serif],
+                article: ['Source Serif 4', 'Georgia', ...defaultTheme.fontFamily.serif],
+            },
+            colors: {
+                brand: {
+                    green: '#5CB87A',
+                    yellow: '#F4C430',
+                    red: '#E85858',
+                },
             },
         },
     },

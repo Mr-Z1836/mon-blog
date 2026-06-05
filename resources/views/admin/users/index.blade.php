@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="header"><h2 class="font-semibold text-xl text-gray-800">Utilisateurs</h2></x-slot>
     <div class="py-8 max-w-5xl mx-auto sm:px-6 lg:px-8">
         @if (session('status'))<p class="mb-4 text-green-700">{{ session('status') }}</p>@endif
@@ -16,7 +16,7 @@
                                 @csrf @method('PUT')
                                 <input name="username" value="{{ $user->username }}" placeholder="pseudo" class="rounded border-gray-300 text-xs w-24">
                                 <label class="text-xs"><input type="checkbox" name="is_admin" value="1" @checked($user->is_admin)> admin</label>
-                                <button class="text-indigo-600 text-xs">OK</button>
+                                <button class="text-brand-red text-xs">OK</button>
                             </form>
                         </td>
                     </tr>

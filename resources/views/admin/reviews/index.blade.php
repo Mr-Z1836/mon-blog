@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Modération des avis</h2>
     </x-slot>
@@ -13,7 +13,7 @@
                 @foreach ($reviews as $review)
                     <div class="border-b pb-4">
                         <p class="text-sm text-gray-500">
-                            {{ $review->user->name }} - <a class="text-indigo-600" href="{{ route('admin.posts.edit', $review->post) }}">{{ $review->post->title }}</a>
+                            {{ $review->user->name }} - <a class="text-brand-red" href="{{ route('admin.posts.edit', $review->post) }}">{{ $review->post->title }}</a>
                         </p>
                         <p class="mt-2 text-sm text-gray-700">{{ $review->content }}</p>
                         <div class="mt-3 flex items-center gap-2">
@@ -21,7 +21,7 @@
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="is_approved" value="{{ $review->is_approved ? 0 : 1 }}">
-                                <button class="rounded bg-indigo-600 px-3 py-1 text-white text-sm">
+                                <button class="rounded bg-brand-green px-3 py-1 text-white text-sm">
                                     {{ $review->is_approved ? 'Masquer' : 'Approuver' }}
                                 </button>
                             </form>

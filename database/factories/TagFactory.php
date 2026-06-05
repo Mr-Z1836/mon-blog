@@ -12,35 +12,17 @@ use Illuminate\Support\Str;
 class TagFactory extends Factory
 {
     private const TAG_NAMES = [
-        'Backend',
-        'Frontend',
-        'API',
-        'Eloquent',
-        'Validation',
-        'Tests',
-        'Performance',
-        'SEO',
-        'Clean Code',
-        'Refactoring',
-        'Middleware',
-        'Blade',
-        'Migration',
-        'UX',
-        'Debug',
+        'Bénin', 'Afrique', 'Laravel', 'Startup', 'Fintech', 'Mobile Money',
+        'Études', 'Bourse', 'Cotonou', 'Jeunesse', 'Remote', 'Open Source',
     ];
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         $name = fake()->unique()->randomElement(self::TAG_NAMES);
 
         return [
             'name' => $name,
-            'slug' => Str::slug($name),
+            'slug' => Str::slug($name).'-'.fake()->unique()->numerify('##'),
         ];
     }
 }

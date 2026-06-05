@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Harry's Blog cover">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="55%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#d946ef"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <circle cx="1040" cy="120" r="180" fill="#ffffff22"/>
+  <circle cx="190" cy="570" r="220" fill="#ffffff1a"/>
+  <text x="100" y="305" fill="#ffffff" font-size="82" font-family="Arial, Helvetica, sans-serif" font-weight="700">
+    Harry's Blog
+  </text>
+  <text x="100" y="365" fill="#ffffff" font-size="34" font-family="Arial, Helvetica, sans-serif" opacity="0.95">
+    Articles, tutoriels et retours d'exp�rience
+  </text>
+</svg>

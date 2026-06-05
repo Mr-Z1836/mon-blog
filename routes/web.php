@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -12,7 +13,10 @@ use App\Http\Controllers\Admin\PostSeriesController as AdminPostSeriesController
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentReportController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsletterSubscriptionController;
+use App\Http\Controllers\Admin\NewsletterSubscriberController as AdminNewsletterSubscriberController;
 use App\Http\Controllers\PostBookmarkController;
 use App\Http\Controllers\PostReactionController;
 use App\Http\Controllers\PostReadHistoryController;
@@ -26,8 +30,15 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'welcome'])->name('home');
+Route::view('/a-propos', 'pages.about')->name('about');
+Route::get('/contact', [ContactController::class, 'show'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store')->middleware('throttle:5,1');
+Route::view('/mentions-legales', 'pages.legal')->name('legal');
 Route::get('/articles', [HomeController::class, 'index'])->name('posts.index');
 Route::get('/articles/{post}', [PostController::class, 'show'])->name('posts.show');
+Route::post('/newsletter', [NewsletterSubscriptionController::class, 'store'])
+    ->name('newsletter.store')
+    ->middleware('throttle:10,1');
 
 Route::get('/sitemap.xml', function (): Response {
     $posts = BlogPost::query()
@@ -35,8 +46,15 @@ Route::get('/sitemap.xml', function (): Response {
         ->orderByDesc('updated_at')
         ->get(['slug', 'updated_at']);
 
+    $categories = \App\Models\Category::query()
+        ->orderBy('name')
+        ->get(['slug', 'updated_at']);
+
     return response()
-        ->view('seo.sitemap', ['posts' => $posts])
+        ->view('seo.sitemap', [
+            'posts' => $posts,
+            'categories' => $categories,
+        ])
         ->header('Content-Type', 'application/xml');
 })->name('sitemap');
 
@@ -45,6 +63,12 @@ Route::get('/robots.txt', function (): Response {
         'User-agent: *',
         'Allow: /',
         'Disallow: /admin',
+        'Disallow: /login',
+        'Disallow: /register',
+        'Disallow: /profile',
+        'Disallow: /dashboard',
+        'Disallow: /forgot-password',
+        'Disallow: /reset-password',
         '',
         'Sitemap: '.route('sitemap'),
     ]);
@@ -93,6 +117,11 @@ Route::prefix('admin')->as('admin.')->middleware(['auth', 'admin'])->group(funct
     Route::delete('media/{media}', [AdminMediaController::class, 'destroy'])->name('media.destroy');
     Route::get('reports', [AdminCommentReportController::class, 'index'])->name('reports.index');
     Route::patch('reports/{commentReport}', [AdminCommentReportController::class, 'update'])->name('reports.update');
+    Route::get('contact-messages', [AdminContactMessageController::class, 'index'])->name('contact-messages.index');
+    Route::get('contact-messages/{contactMessage}', [AdminContactMessageController::class, 'show'])->name('contact-messages.show');
+    Route::delete('contact-messages/{contactMessage}', [AdminContactMessageController::class, 'destroy'])->name('contact-messages.destroy');
+    Route::get('newsletter-subscribers', [AdminNewsletterSubscriberController::class, 'index'])->name('newsletter-subscribers.index');
+    Route::delete('newsletter-subscribers/{newsletterSubscriber}', [AdminNewsletterSubscriberController::class, 'destroy'])->name('newsletter-subscribers.destroy');
 });
 
 require __DIR__.'/auth.php';

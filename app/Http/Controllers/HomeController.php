@@ -14,11 +14,12 @@ class HomeController extends Controller
     public function welcome(Request $request): View|RedirectResponse
     {
         if ($request->user()) {
-            return to_route('dashboard');
+            return to_route('posts.index');
         }
 
         return view('welcome-blog', [
-            'greeting' => "Bienvenue sur ".config('app.name', "Harry's Blog"),
+            'tagline' => config('blog.tagline'),
+            'theme' => config('blog.theme'),
         ]);
     }
 

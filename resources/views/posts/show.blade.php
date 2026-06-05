@@ -1,44 +1,57 @@
-@extends('layouts.blog')
+﻿@extends('layouts.blog')
 
-@section('meta_title', $post->meta_title ?: $post->title.' - '.config('app.name', "Harry's Blog"))
-@section('meta_description', $post->meta_description ?: ($post->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->content), 160)))
+@php
+    $seoDescription = $post->meta_description ?: ($post->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->content), 160));
+@endphp
+
+@section('meta_title', $post->meta_title ?: $post->title.' — Built in Benin')
+@section('meta_description', $seoDescription)
 @section('canonical_url', route('posts.show', $post))
 @section('og_type', 'article')
-@if ($post->image_path)
-    @section('og_image', url(\Illuminate\Support\Facades\Storage::url($post->image_path)))
-@endif
+@section('og_image', \App\Support\Seo::postOgImage($post))
+@section('article_published_time', $post->published_at?->toIso8601String())
+@section('article_modified_time', $post->updated_at->toIso8601String())
+@section('article_author', $post->author->name)
+@section('article_section', $post->category->name)
+
+@push('structured_data')
+    <x-json-ld :data="\App\Support\Seo::articleJsonLd($post, $seoDescription)" />
+@endpush
 
 @section('content')
-    <div id="reading-progress" class="fixed top-0 left-0 z-[60] h-1 w-0 bg-indigo-500 transition-all"></div>
+    <div id="reading-progress" class="fixed top-0 left-0 z-[60] h-1 w-0 bg-brand-green transition-all"></div>
 
-    <div class="max-w-6xl mx-auto p-6 grid gap-6 lg:grid-cols-[220px_1fr]">
-        @if (count($tableOfContents) > 0)
-            <aside class="hidden lg:block">
-                <nav class="glass-card sticky top-24 p-4 text-sm">
-                    <p class="font-semibold text-slate-900 dark:text-slate-100 mb-2">Sommaire</p>
-                    <ul class="space-y-1">
-                        @foreach ($tableOfContents as $heading)
-                            <li class="{{ $heading['level'] === 3 ? 'ps-3' : '' }}">
-                                <a href="#{{ $heading['id'] }}" class="text-slate-600 hover:text-indigo-600 dark:text-slate-400">{{ $heading['text'] }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </nav>
-            </aside>
-        @endif
+    <div class="max-w-6xl mx-auto p-6 grid gap-6 lg:grid-cols-[240px_1fr]">
+        <aside class="hidden lg:block">
+            <div class="sticky top-24 space-y-4">
+                @if (count($tableOfContents) > 0)
+                    <nav class="glass-card p-4 text-sm">
+                        <p class="font-semibold text-slate-900 dark:text-slate-100 mb-2">Sommaire</p>
+                        <ul class="space-y-1">
+                            @foreach ($tableOfContents as $heading)
+                                <li class="{{ $heading['level'] === 3 ? 'ps-3' : '' }}">
+                                    <a href="#{{ $heading['id'] }}" class="text-slate-600 hover:text-brand-red dark:text-slate-400">{{ $heading['text'] }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </nav>
+                @endif
+                <x-newsletter-form source="sidebar" :compact="true" />
+            </div>
+        </aside>
 
-        <div class="space-y-6 {{ count($tableOfContents) === 0 ? 'lg:col-span-2' : '' }}">
+        <div class="space-y-6 min-w-0">
             @if (session('status'))
-                <div class="glass-card border-emerald-300 p-3 text-emerald-700 dark:text-emerald-300">{{ session('status') }}</div>
+                <div class="glass-card border-brand-green/40 p-3 text-brand-green dark:text-brand-green">{{ session('status') }}</div>
             @endif
 
             @if ($seriesPosts->isNotEmpty())
                 <nav class="glass-card p-4">
-                    <p class="text-xs uppercase tracking-wider text-indigo-600">Série : {{ $post->series?->title }}</p>
+                    <p class="text-xs uppercase tracking-wider text-brand-red">Série : {{ $post->series?->title }}</p>
                     <div class="mt-2 flex flex-wrap gap-2">
                         @foreach ($seriesPosts as $seriesPost)
                             <a href="{{ route('posts.show', $seriesPost) }}"
-                               class="rounded-lg px-3 py-1 text-sm {{ $seriesPost->id === $post->id ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200' }}">
+                               class="rounded-lg px-3 py-1 text-sm {{ $seriesPost->id === $post->id ? 'bg-brand-green text-white' : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200' }}">
                                 Partie {{ $seriesPost->series_part }}
                             </a>
                         @endforeach
@@ -63,17 +76,19 @@
                 @endif
                 <p class="text-xs text-slate-500 dark:text-slate-400">
                     {{ optional($post->published_at)->format('d/m/Y') }} · {{ $post->category->name }} · {{ $post->readingTimeMinutes() }} min · {{ $viewsCount }} vues
-                    @if ($post->is_featured) · <span class="text-amber-600">À la une</span> @endif
+                    @if ($post->is_featured) · <span class="text-brand-yellow">À la une</span> @endif
                 </p>
                 <h1 class="text-4xl font-black text-slate-900 dark:text-slate-100">{{ $post->title }}</h1>
                 <p class="text-sm text-slate-600 dark:text-slate-400">Par {{ $post->author->name }}</p>
 
                 <div class="article-body prose prose-slate max-w-none dark:prose-invert">{!! $contentHtml !!}</div>
 
+                @include('posts.partials.cta', ['post' => $post])
+
                 @include('posts.partials.share', ['post' => $post])
 
                 <p class="text-sm text-slate-600 dark:text-slate-400 flex items-center gap-2">
-                    <span class="text-amber-500">
+                    <span class="text-brand-yellow">
                         @for ($i = 1; $i <= 5; $i++)
                             {{ $i <= round($averageRating) ? '★' : '☆' }}
                         @endfor
@@ -90,7 +105,7 @@
                         <form method="POST" action="{{ route('posts.reactions.store', $post) }}">
                             @csrf
                             <input type="hidden" name="type" value="{{ $type }}">
-                            <button type="submit" class="rounded-lg px-3 py-1 text-sm {{ $userReaction === $type ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-800' }}">
+                            <button type="submit" class="rounded-lg px-3 py-1 text-sm {{ $userReaction === $type ? 'bg-brand-green text-white' : 'bg-slate-100 dark:bg-slate-800' }}">
                                 {{ $emoji[$type] }} {{ $reactionCounts[$type] ?? 0 }}
                             </button>
                         </form>
@@ -103,13 +118,13 @@
                     @else
                         <form method="POST" action="{{ route('posts.bookmark.store', $post) }}">
                             @csrf
-                            <button class="rounded-lg border border-indigo-300 px-3 py-1 text-sm text-indigo-700">☆ Sauvegarder</button>
+                            <button class="rounded-lg border border-brand-green/40 px-3 py-1 text-sm text-brand-red">☆ Sauvegarder</button>
                         </form>
                     @endif
                 </section>
 
                 @if ($errors->any())
-                    <div class="glass-card border-rose-300 p-3 text-sm text-rose-700">Merci de corriger les champs invalides.</div>
+                    <div class="glass-card border-brand-red/40 p-3 text-sm text-brand-red">Merci de corriger les champs invalides.</div>
                 @endif
 
                 <div class="grid gap-6 md:grid-cols-2">
@@ -121,7 +136,7 @@
                                 @for ($i = 1; $i <= 5; $i++)
                                     <label class="cursor-pointer">
                                         <input type="radio" name="value" value="{{ $i }}" class="sr-only" @checked((int) old('value', $userRating) === $i)>
-                                        <span class="text-2xl {{ $i <= (int) old('value', $userRating) ? 'text-amber-500' : 'text-gray-300' }}">★</span>
+                                        <span class="text-2xl {{ $i <= (int) old('value', $userRating) ? 'text-brand-yellow' : 'text-gray-300' }}">★</span>
                                     </label>
                                 @endfor
                             </div>
@@ -148,7 +163,7 @@
                     </form>
                 </section>
             @else
-                <div class="glass-card border-cyan-200 p-3 text-cyan-700 dark:border-cyan-800 dark:text-cyan-300">
+                <div class="glass-card border-brand-green/30 p-3 text-brand-green dark:border-brand-green/50 dark:text-brand-green">
                     Connectez-vous pour interagir (commentaires, réactions, notes, avis, favoris).
                     <a class="underline font-semibold" href="{{ route('login') }}">Se connecter</a>
                 </div>
@@ -165,12 +180,16 @@
                 </div>
             </section>
 
+            <div class="lg:hidden">
+                <x-newsletter-form source="article" />
+            </div>
+
             @if ($similarPosts->isNotEmpty())
                 <section class="glass-card p-5">
                     <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Articles similaires</h2>
                     <div class="mt-4 grid gap-4 md:grid-cols-3">
                         @foreach ($similarPosts as $similar)
-                            <a href="{{ route('posts.show', $similar) }}" class="rounded-xl border border-slate-200 p-3 hover:border-indigo-300 dark:border-slate-700">
+                            <a href="{{ route('posts.show', $similar) }}" class="rounded-xl border border-slate-200 p-3 hover:border-brand-green/40 dark:border-slate-700">
                                 <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">{{ $similar->title }}</p>
                                 <p class="mt-1 text-xs text-slate-500">{{ $similar->views_count }} vues</p>
                             </a>
@@ -178,6 +197,8 @@
                     </div>
                 </section>
             @endif
+
+            <x-newsletter-form source="article" class="hidden lg:block" />
         </div>
     </div>
 @endsection

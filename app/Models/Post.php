@@ -14,8 +14,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
     'user_id', 'category_id', 'post_series_id', 'series_part', 'title', 'slug', 'excerpt',
-    'meta_title', 'meta_description', 'image_path', 'video_path', 'youtube_url', 'content',
-    'content_html', 'is_published', 'is_pinned', 'is_featured', 'published_at', 'autosaved_at',
+    'meta_title', 'meta_description', 'cta_title', 'cta_text', 'cta_url', 'image_path', 'video_path',
+    'youtube_url', 'content', 'content_html', 'is_published', 'is_pinned', 'is_featured', 'published_at',
+    'autosaved_at',
 ])]
 class Post extends Model
 {
@@ -107,5 +108,10 @@ class Post extends Model
         $wordCount = str_word_count(strip_tags((string) $this->content));
 
         return max(1, (int) ceil($wordCount / 200));
+    }
+
+    public function hasCta(): bool
+    {
+        return filled($this->cta_text) && filled($this->cta_url);
     }
 }

@@ -1,8 +1,8 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Tags</h2>
-            <a href="{{ route('admin.tags.create') }}" class="rounded bg-indigo-600 px-4 py-2 text-white">Nouveau tag</a>
+            <a href="{{ route('admin.tags.create') }}" class="rounded bg-brand-green px-4 py-2 text-white">Nouveau tag</a>
         </div>
     </x-slot>
 
@@ -20,7 +20,7 @@
                             <p class="text-sm text-gray-500">{{ $tag->slug }}</p>
                         </div>
                         <div class="space-x-2">
-                            <a href="{{ route('admin.tags.edit', $tag) }}" class="text-indigo-600">Modifier</a>
+                            <a href="{{ route('admin.tags.edit', $tag) }}" class="text-brand-red">Modifier</a>
                             <form class="inline" method="POST" action="{{ route('admin.tags.destroy', $tag) }}">
                                 @csrf
                                 @method('DELETE')

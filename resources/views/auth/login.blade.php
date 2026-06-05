@@ -1,4 +1,4 @@
-<x-guest-layout>
+﻿<x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -27,20 +27,20 @@
         <!-- Remember Me -->
         <div class="block mt-4">
             <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-brand-red shadow-sm focus:ring-brand-green" name="remember">
                 <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
             </label>
         </div>
 
-        <div class="mt-6 rounded-md bg-indigo-50 p-3 text-center">
-            <a href="{{ route('posts.index') }}" class="font-semibold text-indigo-700 hover:text-indigo-800">
+        <div class="mt-6 rounded-md bg-brand-yellow/10 p-3 text-center">
+            <a href="{{ route('posts.index') }}" class="font-semibold text-brand-red hover:text-brand-red">
                 Je veux juste lire
             </a>
         </div>
 
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green" href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
@@ -51,7 +51,7 @@
         </div>
 
         <p class="mt-4 text-center text-sm text-gray-600">
-            Pas de compte ? <a href="{{ route('register') }}" class="font-semibold text-indigo-600 hover:text-indigo-700">Créer un compte</a>
+            Pas de compte ? <a href="{{ route('register') }}" class="font-semibold text-brand-red hover:text-brand-red">Créer un compte</a>
         </p>
     </form>
 </x-guest-layout>

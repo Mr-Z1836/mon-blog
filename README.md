@@ -1,6 +1,6 @@
-# Harry's Blog
+# Built in Benin
 
-Blog personnel Laravel 13 + Breeze + MySQL (XAMPP en local).
+Blog **Tech & Entrepreneuriat africain** — Laravel 13 + Breeze + MySQL, déployé sur Railway.
 
 ## Fonctionnalités
 
@@ -19,7 +19,9 @@ php artisan db:seed   # optionnel : données de démo
 php artisan serve
 ```
 
-Comptes démo (après seed) : `admin@blog.test` / `password` — `test@example.com` / `password`
+Comptes démo (après seed) : `harrydedji@gmail.com` / `password` (Starboy, admin) — `test@example.com` / `password`
+
+Le seeder crée **5 catégories**, **15 tags**, **17 articles** longs (contexte Bénin/Afrique) et **2 séries**.
 
 Bases MySQL : exécuter `scripts/create-databases.sql` si besoin.
 

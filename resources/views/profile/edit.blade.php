@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Profile') }}
@@ -24,7 +24,7 @@
                 <ul class="space-y-2 text-sm">
                     @forelse ($bookmarks as $bookmark)
                         @if ($bookmark->post)
-                            <li><a class="text-indigo-600" href="{{ route('posts.show', $bookmark->post) }}">{{ $bookmark->post->title }}</a></li>
+                            <li><a class="text-brand-red" href="{{ route('posts.show', $bookmark->post) }}">{{ $bookmark->post->title }}</a></li>
                         @endif
                     @empty
                         <li class="text-gray-500">Aucun favori.</li>
@@ -38,7 +38,7 @@
                     @forelse ($readHistories as $history)
                         @if ($history->post)
                             <li>
-                                <a class="text-indigo-600" href="{{ route('posts.show', $history->post) }}">{{ $history->post->title }}</a>
+                                <a class="text-brand-red" href="{{ route('posts.show', $history->post) }}">{{ $history->post->title }}</a>
                                 <span class="text-gray-500">({{ $history->progress_percent }}%)</span>
                             </li>
                         @endif
@@ -52,12 +52,12 @@
                 <h3 class="font-semibold text-lg mb-4">Mes commentaires & notes</h3>
                 <ul class="space-y-2 text-sm mb-4">
                     @foreach ($comments as $comment)
-                        <li><a class="text-indigo-600" href="{{ route('posts.show', $comment->post) }}">{{ $comment->post->title }}</a> — {{ \Illuminate\Support\Str::limit($comment->content, 60) }}</li>
+                        <li><a class="text-brand-red" href="{{ route('posts.show', $comment->post) }}">{{ $comment->post->title }}</a> — {{ \Illuminate\Support\Str::limit($comment->content, 60) }}</li>
                     @endforeach
                 </ul>
                 <ul class="space-y-2 text-sm">
                     @foreach ($ratings as $rating)
-                        <li><a class="text-indigo-600" href="{{ route('posts.show', $rating->post) }}">{{ $rating->post->title }}</a> — {{ $rating->value }}/5</li>
+                        <li><a class="text-brand-red" href="{{ route('posts.show', $rating->post) }}">{{ $rating->post->title }}</a> — {{ $rating->value }}/5</li>
                     @endforeach
                 </ul>
             </div>

@@ -1,23 +1,61 @@
-@extends('layouts.blog')
+﻿@extends('layouts.blog')
 
-@section('meta_title', 'Articles du blog - '.config('app.name', "Harry's Blog"))
-@section('meta_description', 'Retrouve tous les articles du blog, filtrés par catégorie et recherchables par mot-clé.')
-@section('canonical_url', route('posts.index', request()->query()))
+@php
+    $hasSearch = filled($keyword);
+    $isPaginated = $posts->currentPage() > 1;
+    $categoryLabel = $selectedCategory
+        ? $categories->firstWhere('slug', $selectedCategory)?->name
+        : null;
+    $tagLabel = $selectedTag
+        ? $tags->firstWhere('slug', $selectedTag)?->name
+        : null;
+    $listTitle = match (true) {
+        filled($categoryLabel) && filled($tagLabel) => "{$categoryLabel} · {$tagLabel} — Articles",
+        filled($categoryLabel) => "{$categoryLabel} — Articles",
+        filled($tagLabel) => "Tag {$tagLabel} — Articles",
+        default => 'Articles',
+    };
+    $listDescription = match (true) {
+        filled($categoryLabel) => "Articles {$categoryLabel} sur Built in Benin : tech, entrepreneuriat et opportunités pour la jeunesse africaine.",
+        filled($tagLabel) => "Articles tagués « {$tagLabel} » sur Built in Benin.",
+        default => config('blog.meta_description'),
+    };
+    $canonicalParams = array_filter([
+        'category' => $selectedCategory ?: null,
+        'tag' => $selectedTag ?: null,
+    ]);
+@endphp
+
+@section('meta_title', $listTitle.' — Built in Benin')
+@section('meta_description', $listDescription)
+@section('canonical_url', $hasSearch ? route('posts.index') : route('posts.index', $canonicalParams))
+@if ($hasSearch || $isPaginated)
+    @section('meta_robots', 'noindex, follow')
+@endif
+
+@push('head')
+    @if ($posts->previousPageUrl())
+        <link rel="prev" href="{{ $posts->previousPageUrl() }}">
+    @endif
+    @if ($posts->nextPageUrl())
+        <link rel="next" href="{{ $posts->nextPageUrl() }}">
+    @endif
+@endpush
 
 @section('content')
-    <div class="max-w-7xl mx-auto p-6 space-y-8">
+    <div class="max-w-7xl mx-auto p-6 grid gap-8 lg:grid-cols-[1fr_300px]">
+    <div class="space-y-8 min-w-0">
         @if (session('status'))
-            <div class="glass-card border-emerald-300 p-3 text-emerald-700">{{ session('status') }}</div>
+            <div class="glass-card border-brand-green/40 p-3 text-brand-green">{{ session('status') }}</div>
         @endif
 
         <div class="glass-card overflow-hidden p-6">
-            <p class="text-xs uppercase tracking-[0.3em] text-cyan-600/80">Nouveau contenu chaque semaine</p>
-            <h1 class="mt-3 text-4xl font-black leading-tight md:text-5xl">
-                Un blog développeur
-                <span class="bg-gradient-to-r from-cyan-500 via-indigo-500 to-fuchsia-500 bg-clip-text text-transparent">visuel et percutant</span>
+            <p class="text-xs uppercase tracking-[0.3em] text-brand-green">Tech & Entrepreneuriat africain</p>
+            <h1 class="mt-3 text-4xl font-black leading-tight md:text-5xl text-slate-800 dark:text-slate-100">
+                Les articles <x-brand-logo size="lg" class="inline" />
             </h1>
-            <p class="mt-3 max-w-2xl text-sm text-slate-600">
-                Explore les derniers articles, filtre par catégorie et retrouve rapidement les sujets qui t'intéressent.
+            <p class="mt-3 max-w-2xl text-sm text-slate-600 dark:text-slate-400">
+                Dev, entrepreneuriat, crypto, cybersécurité, études et opportunités — filtre par catégorie ou tag, ou cherche un mot-clé.
             </p>
 
             <form method="GET" action="{{ route('posts.index') }}" class="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-4">
@@ -46,7 +84,7 @@
                 </select>
                 <div class="flex items-center gap-2 md:col-span-2 lg:col-span-4">
                     <button type="submit" class="btn-neon">Filtrer</button>
-                    <a href="{{ route('posts.index') }}" class="rounded-xl border border-indigo-600 px-4 py-2 text-indigo-600 hover:bg-indigo-50">Réinitialiser</a>
+                    <a href="{{ route('posts.index') }}" class="rounded-xl border border-brand-red px-4 py-2 text-brand-red hover:bg-brand-yellow/10">Réinitialiser</a>
                 </div>
             </form>
         </div>
@@ -58,7 +96,7 @@
                 </a>
             @endif
         @else
-            <div class="glass-card border-cyan-200 p-3 text-sm text-cyan-700">
+            <div class="glass-card border-brand-green/30 p-3 text-sm text-brand-green">
                 <a class="underline" href="{{ route('login') }}">Connecte-toi</a> ou
                 <a class="underline" href="{{ route('register') }}">crée un compte</a>
                 pour commenter, noter et laisser un avis.
@@ -67,7 +105,7 @@
 
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             @forelse ($posts as $post)
-                <article class="glass-card p-5 transition hover:-translate-y-1 hover:border-cyan-300/40">
+                <article class="glass-card p-5 transition hover:-translate-y-1 hover:border-brand-green/50/40">
                     @if ($post->image_path)
                         <img src="{{ url(\Illuminate\Support\Facades\Storage::url($post->image_path)) }}" alt="{{ $post->title }}" class="mb-3 h-44 w-full rounded-xl object-cover" />
                     @elseif ($post->video_path)
@@ -79,7 +117,7 @@
                         {{ optional($post->published_at)->format('d/m/Y') }} · {{ $post->category->name }} · {{ $post->readingTimeMinutes() }} min
                     </p>
                     <h2 class="mt-2 text-lg font-bold text-slate-900 dark:text-slate-100">
-                        @if ($post->is_pinned)<span class="text-indigo-600 text-xs">📌 </span>@endif
+                        @if ($post->is_pinned)<span class="text-brand-red text-xs">📌 </span>@endif
                         {{ $post->title }}
                     </h2>
                     <p class="mt-2 text-sm text-slate-600">{{ $post->excerpt ?: \Illuminate\Support\Str::limit($post->content, 120) }}</p>
@@ -92,7 +130,7 @@
                         <span>{{ $post->views_count }} vues</span>
                         <span class="flex items-center gap-1">
                             @php($avg = (float) $post->ratings_avg_value)
-                            <span class="text-amber-500">
+                            <span class="text-brand-yellow">
                                 @for ($i = 1; $i <= 5; $i++)
                                     {{ $i <= round($avg) ? '★' : '☆' }}
                                 @endfor
@@ -100,7 +138,7 @@
                             <span>{{ number_format($avg, 1) }}/5</span>
                         </span>
                     </div>
-                    <a href="{{ route('posts.show', $post) }}" class="mt-4 inline-block text-sm font-semibold text-cyan-600 hover:text-cyan-700">Lire l'article</a>
+                    <a href="{{ route('posts.show', $post) }}" class="mt-4 inline-block text-sm font-semibold text-brand-green hover:text-brand-green">Lire l'article</a>
                 </article>
             @empty
                 <p class="text-slate-600">Aucun article trouvé pour ce filtre.</p>
@@ -113,5 +151,16 @@
             </p>
             {{ $posts->links() }}
         </div>
+
+        <div class="lg:hidden">
+            <x-newsletter-form source="home" />
+        </div>
+    </div>
+
+    <aside class="hidden lg:block">
+        <div class="sticky top-24">
+            <x-newsletter-form source="sidebar" />
+        </div>
+    </aside>
     </div>
 @endsection

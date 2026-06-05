@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Créer un tag</h2>
     </x-slot>
@@ -8,7 +8,7 @@
             <form method="POST" action="{{ route('admin.tags.store') }}" class="rounded-lg bg-white p-6 shadow space-y-4">
                 @csrf
                 @include('admin.tags._form')
-                <button class="rounded bg-indigo-600 px-4 py-2 text-white">Créer</button>
+                <button class="rounded bg-brand-green px-4 py-2 text-white">Créer</button>
             </form>
         </div>
     </div>

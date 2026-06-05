@@ -1,8 +1,8 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Articles</h2>
-            <a href="{{ route('admin.posts.create') }}" class="rounded bg-indigo-600 px-4 py-2 text-white">Nouvel article</a>
+            <a href="{{ route('admin.posts.create') }}" class="rounded bg-brand-green px-4 py-2 text-white">Nouvel article</a>
         </div>
     </x-slot>
 
@@ -35,7 +35,7 @@
                                 <td class="px-4 py-3">{{ $post->views_count }}</td>
                                 <td class="px-4 py-3">{{ number_format((float) $post->ratings_avg_value, 1) }}/5</td>
                                 <td class="px-4 py-3 text-right space-x-2">
-                                    <a class="text-indigo-600" href="{{ route('admin.posts.edit', $post) }}">Modifier</a>
+                                    <a class="text-brand-red" href="{{ route('admin.posts.edit', $post) }}">Modifier</a>
                                     <form class="inline" method="POST" action="{{ route('admin.posts.destroy', $post) }}">
                                         @csrf
                                         @method('DELETE')

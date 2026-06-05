@@ -11,36 +11,22 @@ use Illuminate\Support\Str;
  */
 class CategoryFactory extends Factory
 {
-    private const CATEGORY_NAMES = [
-        'Développement Web',
-        'Laravel',
-        'PHP',
-        'JavaScript',
-        'Productivité',
-        'Outils',
-        'Base de données',
-        'Design',
-        'Sécurité',
-        'DevOps',
+    private const CATEGORIES = [
+        ['name' => 'Dev & Code', 'slug' => 'dev-code'],
+        ['name' => 'Entrepreneuriat', 'slug' => 'entrepreneuriat'],
+        ['name' => 'Crypto & Finance', 'slug' => 'crypto-finance'],
+        ['name' => 'Vie d\'étudiant tech', 'slug' => 'vie-etudiant'],
+        ['name' => 'Opportunités', 'slug' => 'opportunites'],
     ];
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
-        $name = fake()->unique()->randomElement(self::CATEGORY_NAMES);
+        $category = fake()->randomElement(self::CATEGORIES);
 
         return [
-            'name' => $name,
-            'slug' => Str::slug($name),
-            'description' => fake()->randomElement([
-                'Tutoriels et retours d\'expérience pour progresser rapidement.',
-                'Conseils pratiques pour améliorer la qualité du code.',
-                'Articles accessibles pour mieux comprendre les bases et les bonnes pratiques.',
-            ]),
+            'name' => $category['name'],
+            'slug' => $category['slug'].'-'.fake()->unique()->numerify('##'),
+            'description' => 'Contenus autour de la tech et de l\'entrepreneuriat africain.',
         ];
     }
 }

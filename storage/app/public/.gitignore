@@ -1,2 +1,8 @@
 *
 !.gitignore
+!posts/
+posts/*
+!posts/images/
+posts/images/*
+!posts/images/*.png
+!posts/images/*.svg

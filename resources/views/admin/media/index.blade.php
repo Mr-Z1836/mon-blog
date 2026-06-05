@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <x-slot name="header"><h2 class="font-semibold text-xl text-gray-800">Bibliothèque médias</h2></x-slot>
     <div class="py-8 max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-6">
         @if (session('status'))<p class="text-green-700">{{ session('status') }}</p>@endif
@@ -6,7 +6,7 @@
             @csrf
             <div><label class="block text-sm">Fichier</label><input type="file" name="file" accept="image/*" required></div>
             <div><label class="block text-sm">Alt</label><input name="alt" class="rounded-md border-gray-300"></div>
-            <button class="rounded bg-indigo-600 px-4 py-2 text-white text-sm">Uploader</button>
+            <button class="rounded bg-brand-green px-4 py-2 text-white text-sm">Uploader</button>
         </form>
         <div class="grid gap-4 grid-cols-2 md:grid-cols-4">
             @foreach ($mediaItems as $media)
@@ -15,7 +15,7 @@
                     <p class="mt-1 text-xs truncate">{{ $media->filename }}</p>
                     <form method="POST" action="{{ route('admin.media.destroy', $media) }}" class="mt-1">
                         @csrf @method('DELETE')
-                        <button class="text-xs text-rose-600">Supprimer</button>
+                        <button class="text-xs text-brand-red">Supprimer</button>
                     </form>
                 </div>
             @endforeach

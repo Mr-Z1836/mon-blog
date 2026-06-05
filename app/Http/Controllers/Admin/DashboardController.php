@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Comment;
 use App\Models\CommentReport;
+use App\Models\ContactMessage;
+use App\Models\NewsletterSubscriber;
 use App\Models\Post;
 use App\Models\PostView;
 use App\Models\Review;
@@ -40,11 +43,19 @@ class DashboardController extends Controller
             ? round(($singleViewSessions / max($totalViews, 1)) * 100, 1)
             : 0;
 
+        $categories = Category::query()
+            ->withCount('posts')
+            ->orderBy('name')
+            ->get(['id', 'name', 'slug']);
+
         return view('admin.dashboard', [
+            'categories' => $categories,
             'postsCount' => Post::count(),
             'pendingCommentsCount' => Comment::where('is_approved', false)->count(),
             'pendingReviewsCount' => Review::where('is_approved', false)->count(),
             'pendingReportsCount' => CommentReport::where('status', 'pending')->count(),
+            'unreadContactCount' => ContactMessage::whereNull('read_at')->count(),
+            'newsletterSubscribersCount' => NewsletterSubscriber::query()->active()->count(),
             'totalViews' => $totalViews,
             'avgDuration' => $avgDuration,
             'countries' => $countries,

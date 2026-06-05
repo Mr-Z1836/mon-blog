@@ -1,4 +1,4 @@
-<x-guest-layout>
+﻿<x-guest-layout>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -40,7 +40,7 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
 
@@ -49,8 +49,8 @@
             </x-primary-button>
         </div>
 
-        <div class="mt-6 rounded-md bg-indigo-50 p-3 text-center">
-            <a href="{{ route('posts.index') }}" class="font-semibold text-indigo-700 hover:text-indigo-800">
+        <div class="mt-6 rounded-md bg-brand-yellow/10 p-3 text-center">
+            <a href="{{ route('posts.index') }}" class="font-semibold text-brand-red hover:text-brand-red">
                 Je veux juste lire
             </a>
         </div>

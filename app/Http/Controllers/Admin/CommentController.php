@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ModerateCommentRequest;
 use App\Models\Comment;
+use App\Support\CommentMentions;
+use App\Support\CommentNotifier;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -24,9 +26,15 @@ class CommentController extends Controller
 
     public function update(ModerateCommentRequest $request, Comment $comment): RedirectResponse
     {
+        $wasApproved = $comment->is_approved;
+
         $comment->update([
             'is_approved' => (bool) $request->validated('is_approved'),
         ]);
+
+        if (! $wasApproved && $comment->is_approved) {
+            CommentNotifier::send($comment, CommentMentions::resolveFromContent($comment->content));
+        }
 
         return back()->with('status', 'Commentaire mis à jour.');
     }

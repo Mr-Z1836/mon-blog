@@ -14,4 +14,8 @@ return [
 
     'og_image' => env('BLOG_OG_IMAGE'),
 
+    'comments_require_moderation' => env('BLOG_COMMENTS_REQUIRE_MODERATION', false),
+
+    'comments_notify_author' => env('BLOG_COMMENTS_NOTIFY_AUTHOR', true),
+
 ];

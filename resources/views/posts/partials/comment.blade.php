@@ -8,7 +8,7 @@
             <span class="text-brand-red">→ @{{ $comment->mentionedUser->username ?? $comment->mentionedUser->name }}</span>
         @endif
     </p>
-    <p class="text-sm text-slate-600 dark:text-slate-400">{{ $comment->content }}</p>
+    <p class="text-sm text-slate-600 dark:text-slate-400">{!! \App\Support\CommentMentions::formatContent($comment->content) !!}</p>
     @auth
         <div class="mt-2 flex gap-3 text-xs">
             <button type="button" class="text-brand-red reply-btn" data-parent="{{ $comment->id }}">Répondre</button>

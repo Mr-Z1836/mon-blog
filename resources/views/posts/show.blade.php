@@ -175,7 +175,7 @@
                     @forelse ($post->comments as $comment)
                         @include('posts.partials.comment', ['comment' => $comment, 'post' => $post, 'depth' => 0])
                     @empty
-                        <p class="text-sm text-slate-600 dark:text-slate-400">Aucun commentaire validé.</p>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">Aucun commentaire pour le moment.</p>
                     @endforelse
                 </div>
             </section>

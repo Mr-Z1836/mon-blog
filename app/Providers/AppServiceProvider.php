@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureRailwayDatabase();
+        $this->configureRailwayAppUrl();
     }
 
     private function configureRailwayDatabase(): void
@@ -43,5 +45,26 @@ class AppServiceProvider extends ServiceProvider
             'database.connections.mysql.username' => env('MYSQLUSER') ?: env('MYSQL_USER') ?: env('DB_USERNAME', 'root'),
             'database.connections.mysql.password' => env('MYSQLPASSWORD') ?: env('MYSQL_PASSWORD') ?: env('DB_PASSWORD', ''),
         ]);
+    }
+
+    private function configureRailwayAppUrl(): void
+    {
+        if ($this->app->environment('local')) {
+            return;
+        }
+
+        $railwayDomain = env('RAILWAY_PUBLIC_DOMAIN');
+
+        if ($railwayDomain) {
+            $configuredUrl = rtrim((string) config('app.url'), '/');
+
+            if ($configuredUrl === '' || str_contains($configuredUrl, 'localhost') || str_starts_with($configuredUrl, 'http://')) {
+                config(['app.url' => 'https://'.$railwayDomain]);
+            }
+        }
+
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }

@@ -3,6 +3,14 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
+if [ -n "${RAILWAY_PUBLIC_DOMAIN:-}" ]; then
+    case "${APP_URL:-}" in
+        ""|*localhost*|http://*)
+            export APP_URL="https://${RAILWAY_PUBLIC_DOMAIN}"
+            ;;
+    esac
+fi
+
 echo "Running migrations and seeding database ..."
 
 php artisan config:clear --ansi

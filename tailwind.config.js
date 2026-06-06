@@ -20,9 +20,9 @@ export default {
             },
             colors: {
                 brand: {
-                    green: '#5CB87A',
-                    yellow: '#F4C430',
-                    red: '#E85858',
+                    green: '#3D9A62',
+                    yellow: '#C99718',
+                    red: '#C94545',
                 },
             },
         },

@@ -8,19 +8,19 @@
 
 @layer components {
     .bg-aurora {
-        @apply bg-green-50 text-slate-800;
+        @apply bg-emerald-100/80 text-slate-800;
         background-image:
-            radial-gradient(circle at 8% 15%, rgba(92, 184, 122, 0.22), transparent 32%),
-            radial-gradient(circle at 85% 10%, rgba(244, 196, 48, 0.18), transparent 28%),
-            radial-gradient(circle at 75% 85%, rgba(232, 88, 88, 0.18), transparent 30%);
+            radial-gradient(circle at 8% 15%, rgba(61, 154, 98, 0.26), transparent 32%),
+            radial-gradient(circle at 85% 10%, rgba(201, 151, 24, 0.22), transparent 28%),
+            radial-gradient(circle at 75% 85%, rgba(201, 69, 69, 0.22), transparent 30%);
     }
 
     .dark .bg-aurora {
-        @apply bg-slate-900 text-slate-100;
+        @apply bg-slate-950 text-slate-100;
         background-image:
-            radial-gradient(circle at 8% 15%, rgba(92, 184, 122, 0.12), transparent 32%),
-            radial-gradient(circle at 85% 10%, rgba(244, 196, 48, 0.1), transparent 28%),
-            radial-gradient(circle at 75% 85%, rgba(232, 88, 88, 0.1), transparent 30%);
+            radial-gradient(circle at 8% 15%, rgba(61, 154, 98, 0.16), transparent 32%),
+            radial-gradient(circle at 85% 10%, rgba(201, 151, 24, 0.13), transparent 28%),
+            radial-gradient(circle at 75% 85%, rgba(201, 69, 69, 0.13), transparent 30%);
     }
 
     .glass-card {

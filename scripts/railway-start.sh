@@ -17,7 +17,10 @@ php artisan config:clear --ansi
 php artisan migrate --force --ansi
 
 if [ "${RUN_DB_SEED:-false}" = "true" ]; then
+    echo "RUN_DB_SEED=true → création des comptes démo (harrydedji@gmail.com / password) ..."
     php artisan db:seed --force --ansi
+else
+    echo "RUN_DB_SEED n'est pas activé → aucun compte démo créé à ce démarrage."
 fi
 
 php artisan storage:link 2>/dev/null || true

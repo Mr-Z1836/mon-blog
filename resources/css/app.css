@@ -64,7 +64,7 @@
     }
 
     .article-body :is(h1, h2, h3, h4) {
-        @apply font-sans;
+        @apply font-display font-bold tracking-tight;
     }
 
     .reading-content {
@@ -72,6 +72,6 @@
     }
 
     .reading-content :is(h1, h2, h3, h4) {
-        @apply font-sans text-slate-800 dark:text-slate-100;
+        @apply font-display font-bold tracking-tight text-slate-800 dark:text-slate-100;
     }
 }

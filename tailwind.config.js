@@ -14,9 +14,10 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Plus Jakarta Sans', ...defaultTheme.fontFamily.sans],
-                serif: ['Source Serif 4', ...defaultTheme.fontFamily.serif],
-                article: ['Source Serif 4', 'Georgia', ...defaultTheme.fontFamily.serif],
+                sans: ['"Bricolage Grotesque"', ...defaultTheme.fontFamily.sans],
+                display: ['"Bricolage Grotesque"', ...defaultTheme.fontFamily.sans],
+                serif: ['Newsreader', ...defaultTheme.fontFamily.serif],
+                article: ['Newsreader', 'Georgia', ...defaultTheme.fontFamily.serif],
             },
             colors: {
                 brand: {

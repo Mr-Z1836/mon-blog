@@ -11,6 +11,6 @@
     };
 @endphp
 
-<span {{ $attributes->merge(['class' => "font-black tracking-tight {$sizeClasses}"]) }}>
+<span {{ $attributes->merge(['class' => "font-display font-extrabold tracking-tight {$sizeClasses}"]) }}>
     <span class="text-brand-green">Built</span><span class="text-brand-yellow"> in </span><span class="text-brand-red">Benin</span>
 </span>

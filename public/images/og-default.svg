@@ -8,9 +8,9 @@
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect x="60" y="60" width="1080" height="510" rx="32" fill="rgba(255,255,255,0.92)"/>
-  <text x="600" y="280" text-anchor="middle" font-family="Figtree, Arial, sans-serif" font-size="72" font-weight="800" fill="#1e293b">
+  <text x="600" y="280" text-anchor="middle" font-family="Bricolage Grotesque, Arial, sans-serif" font-size="72" font-weight="800" fill="#1e293b">
     <tspan fill="#3D9A62">Built</tspan><tspan fill="#C99718"> in </tspan><tspan fill="#C94545">Benin</tspan>
   </text>
-  <text x="600" y="360" text-anchor="middle" font-family="Figtree, Arial, sans-serif" font-size="36" font-weight="600" fill="#64748b">by Starboy</text>
-  <text x="600" y="430" text-anchor="middle" font-family="Figtree, Arial, sans-serif" font-size="28" fill="#475569">Tech &amp; Entrepreneuriat africain</text>
+  <text x="600" y="360" text-anchor="middle" font-family="Bricolage Grotesque, Arial, sans-serif" font-size="36" font-weight="600" fill="#64748b">by Starboy</text>
+  <text x="600" y="430" text-anchor="middle" font-family="Newsreader, Georgia, serif" font-size="28" fill="#475569">Tech &amp; Entrepreneuriat africain</text>
 </svg>

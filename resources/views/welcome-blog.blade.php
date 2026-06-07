@@ -1,11 +1,16 @@
 ﻿@extends('layouts.blog')
 
-@section('meta_title', 'Built in Benin — Tech & Entrepreneuriat africain')
+@section('meta_title', 'Built in Benin by Harry DEDJI — Tech & Entrepreneuriat africain')
 @section('meta_description', config('blog.meta_description'))
 @section('canonical_url', route('home'))
 
 @push('structured_data')
-    <x-json-ld :data="\App\Support\Seo::websiteJsonLd()" />
+    @php
+        $websiteJsonLd = \App\Support\Seo::websiteJsonLd();
+        $websiteJsonLd['name'] = 'Built in Benin by Harry DEDJI';
+        $websiteJsonLd['alternateName'] = 'by Harry DEDJI';
+    @endphp
+    <x-json-ld :data="$websiteJsonLd" />
 @endpush
 
 @section('content')
@@ -14,7 +19,7 @@
             <p class="text-xs font-semibold uppercase tracking-[0.35em] text-brand-green">{{ $theme }}</p>
             <div class="mt-4 flex flex-col items-center gap-2">
                 <x-brand-logo size="xl" />
-                <p class="text-lg font-medium text-brand-yellow">{{ $tagline }}</p>
+                <p class="text-lg font-medium text-brand-yellow">by Harry DEDJI</p>
             </div>
             <p class="reading-content mx-auto mt-6 max-w-2xl">
                 Code, startups, crypto, vie d'étudiant tech et opportunités pour la jeunesse africaine —

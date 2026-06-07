@@ -7,7 +7,9 @@
         }
     </script>
     @php
-        $seoTitle = trim($__env->yieldContent('meta_title') ?: config('app.name').' — '.config('blog.tagline'));
+        $blogAuthor = 'by Harry DEDJI';
+        $blogSiteName = 'Built in Benin '.$blogAuthor;
+        $seoTitle = trim($__env->yieldContent('meta_title') ?: $blogSiteName.' — '.config('blog.theme'));
         $seoDescription = trim($__env->yieldContent('meta_description') ?: config('blog.meta_description'));
         $seoCanonical = trim($__env->yieldContent('canonical_url') ?: url()->current());
         $seoOgType = trim($__env->yieldContent('og_type') ?: 'website');
@@ -26,7 +28,7 @@
     @endif
     <link rel="canonical" href="{{ $seoCanonical }}">
     <meta property="og:type" content="{{ $seoOgType }}">
-    <meta property="og:site_name" content="{{ config('app.name') }}">
+    <meta property="og:site_name" content="{{ $blogSiteName }}">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:title" content="{{ $seoTitle }}">
     <meta property="og:description" content="{{ $seoDescription }}">
@@ -61,7 +63,7 @@
         <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-4">
             <a href="{{ route('home') }}" class="group flex flex-col leading-tight">
                 <x-brand-logo size="sm" />
-                <span class="mt-0.5 text-xs font-medium text-brand-yellow group-hover:text-brand-green transition-colors">{{ config('blog.tagline') }}</span>
+                <span class="mt-0.5 text-xs font-medium text-brand-yellow group-hover:text-brand-green transition-colors">{{ $blogAuthor }}</span>
             </a>
             <nav class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
                 <a href="{{ route('posts.index') }}" class="nav-link">Articles</a>
@@ -102,7 +104,7 @@
     <footer class="mt-12 border-t border-brand-green/15 bg-white/50 py-8 dark:bg-slate-900/50">
         <div class="mx-auto flex max-w-7xl flex-col items-center gap-2 px-6 text-center text-sm text-slate-600 dark:text-slate-400">
             <x-brand-logo size="sm" />
-            <p>{{ config('blog.tagline') }} · {{ config('blog.theme') }}</p>
+            <p>{{ $blogAuthor }} · {{ config('blog.theme') }}</p>
             <div class="flex flex-wrap justify-center gap-4">
                 <a href="{{ route('about') }}" class="hover:text-brand-red">À propos</a>
                 <a href="{{ route('contact') }}" class="hover:text-brand-yellow">Contact</a>

@@ -1,22 +1,21 @@
 ﻿@extends('layouts.blog')
 
-@section('meta_title', 'À propos — Built in Benin')
-@section('meta_description', 'Qui est Starboy, pourquoi Built in Benin existe, et ce que tu y trouveras sur la tech et l\'entrepreneuriat africain.')
+@section('meta_title', 'À propos — Built in Benin by Harry DEDJI')
+@section('meta_description', 'Qui est Harry DEDJI, pourquoi Built in Benin existe, et ce que tu y trouveras sur la tech et l\'entrepreneuriat africain.')
 @section('canonical_url', route('about'))
 
 @section('content')
     <x-page-shell>
         <div class="text-center">
             <x-brand-logo size="lg" />
-            <p class="mt-2 text-sm font-semibold text-brand-yellow">{{ config('blog.tagline') }}</p>
+            <p class="mt-2 text-sm font-semibold text-brand-yellow">by Harry DEDJI</p>
         </div>
 
         <h1 class="text-3xl font-black text-slate-800 dark:text-slate-100">À propos</h1>
 
         <div class="reading-content space-y-4">
             <p>
-                <strong class="text-brand-green">Built</strong><strong class="text-brand-yellow"> in </strong><strong class="text-brand-red">Benin</strong> est un blog créé par
-                <strong class="text-brand-yellow">Starboy</strong>, dédié à la tech et à
+                <strong class="text-brand-green">Built</strong><strong class="text-brand-yellow"> in </strong><strong class="text-brand-red">Benin</strong> est un blog créé par Harry DEDJI alias Starboy, dédié à la tech et à
                 l'entrepreneuriat en Afrique — avec une attention particulière pour le Bénin et
                 la jeunesse qui veut coder, entreprendre et saisir les opportunités du continent.
             </p>

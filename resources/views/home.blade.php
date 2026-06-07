@@ -16,8 +16,8 @@
         default => 'Articles',
     };
     $listDescription = match (true) {
-        filled($categoryLabel) => "Articles {$categoryLabel} sur Built in Benin : tech, entrepreneuriat et opportunités pour la jeunesse africaine.",
-        filled($tagLabel) => "Articles tagués « {$tagLabel} » sur Built in Benin.",
+        filled($categoryLabel) => "Articles {$categoryLabel} sur Built in Benin by Harry DEDJI : tech, entrepreneuriat et opportunités pour la jeunesse africaine.",
+        filled($tagLabel) => "Articles tagués « {$tagLabel} » sur Built in Benin by Harry DEDJI.",
         default => config('blog.meta_description'),
     };
     $canonicalParams = array_filter([
@@ -26,7 +26,7 @@
     ]);
 @endphp
 
-@section('meta_title', $listTitle.' — Built in Benin')
+@section('meta_title', $listTitle.' — Built in Benin by Harry DEDJI')
 @section('meta_description', $listDescription)
 @section('canonical_url', $hasSearch ? route('posts.index') : route('posts.index', $canonicalParams))
 @if ($hasSearch || $isPaginated)
@@ -95,12 +95,6 @@
                     Accéder à l'administration
                 </a>
             @endif
-        @else
-            <div class="glass-card border-brand-green/30 p-3 text-sm text-brand-green">
-                <a class="underline" href="{{ route('login') }}">Connecte-toi</a> ou
-                <a class="underline" href="{{ route('register') }}">crée un compte</a>
-                pour commenter, noter et laisser un avis.
-            </div>
         @endauth
 
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

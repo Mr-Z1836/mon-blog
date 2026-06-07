@@ -3,7 +3,7 @@
 <div {{ $attributes->merge(['class' => 'glass-card p-5']) }}>
     <p class="text-xs uppercase tracking-[0.2em] text-brand-yellow">Newsletter</p>
     <h2 class="mt-2 text-lg font-bold text-slate-900 dark:text-slate-100">
-        {{ $compact ? 'Reste informé' : 'Ne rate rien de Built in Benin' }}
+        {{ $compact ? 'Reste informé' : 'Ne rate rien de Built in Benin by Harry DEDJI' }}
     </h2>
     @unless ($compact)
         <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">

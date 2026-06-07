@@ -1,7 +1,7 @@
 ﻿@extends('layouts.blog')
 
-@section('meta_title', 'Contact — Built in Benin')
-@section('meta_description', 'Contacte Starboy via Built in Benin : questions, collaborations, suggestions d\'articles.')
+@section('meta_title', 'Contact — Built in Benin by Harry DEDJI')
+@section('meta_description', 'Contacte Harry DEDJI via Built in Benin by Harry DEDJI : questions, collaborations, suggestions d\'articles.')
 @section('canonical_url', route('contact'))
 
 @section('content')

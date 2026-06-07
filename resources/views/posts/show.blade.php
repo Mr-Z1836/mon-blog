@@ -4,7 +4,7 @@
     $seoDescription = $post->meta_description ?: ($post->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->content), 160));
 @endphp
 
-@section('meta_title', $post->meta_title ?: $post->title.' — Built in Benin')
+@section('meta_title', $post->meta_title ?: $post->title.' — Built in Benin by Harry DEDJI')
 @section('meta_description', $seoDescription)
 @section('canonical_url', route('posts.show', $post))
 @section('og_type', 'article')
@@ -15,7 +15,11 @@
 @section('article_section', $post->category->name)
 
 @push('structured_data')
-    <x-json-ld :data="\App\Support\Seo::articleJsonLd($post, $seoDescription)" />
+    @php
+        $articleJsonLd = \App\Support\Seo::articleJsonLd($post, $seoDescription);
+        $articleJsonLd['publisher']['name'] = 'Built in Benin by Harry DEDJI';
+    @endphp
+    <x-json-ld :data="$articleJsonLd" />
 @endpush
 
 @section('content')
@@ -162,12 +166,15 @@
                         <button class="btn-neon">Envoyer</button>
                     </form>
                 </section>
-            @else
-                <div class="glass-card border-brand-green/30 p-3 text-brand-green dark:border-brand-green/50 dark:text-brand-green">
-                    Connectez-vous pour interagir (commentaires, réactions, notes, avis, favoris).
-                    <a class="underline font-semibold" href="{{ route('login') }}">Se connecter</a>
-                </div>
             @endauth
+
+            @guest
+                <div class="glass-card border-brand-green/30 p-3 text-sm text-brand-green dark:border-brand-green/50 dark:text-brand-green">
+                    <a class="underline" href="{{ route('login') }}">Connecte-toi</a> ou
+                    <a class="underline" href="{{ route('register') }}">crée un compte</a>
+                    pour commenter, noter et laisser un avis.
+                </div>
+            @endguest
 
             <section class="glass-card p-5">
                 <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Commentaires</h2>

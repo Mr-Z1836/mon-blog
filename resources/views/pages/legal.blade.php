@@ -1,7 +1,7 @@
 ﻿@extends('layouts.blog')
 
-@section('meta_title', 'Mentions légales — Built in Benin')
-@section('meta_description', 'Mentions légales du blog Built in Benin by Starboy.')
+@section('meta_title', 'Mentions légales — Built in Benin by Harry DEDJI')
+@section('meta_description', 'Mentions légales du blog Built in Benin by Harry DEDJI.')
 @section('canonical_url', route('legal'))
 
 @section('content')
@@ -12,7 +12,7 @@
         <section class="reading-content space-y-3">
             <h2 class="text-lg font-bold text-brand-green">1. Éditeur du site</h2>
             <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
-                Le site <strong>Built in Benin</strong> ({{ config('blog.tagline') }}) est édité par Starboy,
+                Le site <strong>Built in Benin</strong> (by Harry DEDJI) est édité par Harry DEDJI,
                 blog personnel consacré à la tech et à l'entrepreneuriat africain.<br>
                 Contact : via le <a href="{{ route('contact') }}" class="text-brand-green underline">formulaire de contact</a>.
             </p>

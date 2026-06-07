@@ -100,11 +100,11 @@
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             @forelse ($posts as $post)
                 <article class="glass-card p-5 transition hover:-translate-y-1 hover:border-brand-green/50/40">
-                    @if ($post->image_path)
-                        <img src="{{ url(\Illuminate\Support\Facades\Storage::url($post->image_path)) }}" alt="{{ $post->title }}" class="mb-3 h-44 w-full rounded-xl object-cover" />
-                    @elseif ($post->video_path)
+                    @if ($post->imageUrl())
+                        <img src="{{ $post->imageUrl() }}" alt="{{ $post->title }}" class="mb-3 h-44 w-full rounded-xl object-cover" />
+                    @elseif ($post->videoUrl())
                         <video class="mb-3 h-44 w-full rounded-xl object-cover" muted controls>
-                            <source src="{{ url(\Illuminate\Support\Facades\Storage::url($post->video_path)) }}">
+                            <source src="{{ $post->videoUrl() }}">
                         </video>
                     @endif
                     <p class="text-xs text-slate-500 dark:text-slate-400">

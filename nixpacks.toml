@@ -8,7 +8,11 @@ cmds = [
 ]
 
 [phases.build]
-cmds = ["npm run build"]
+cmds = [
+    "npm run build",
+    "mkdir -p public/storage",
+    "cp -r storage/app/public/. public/storage/",
+]
 
 [start]
 cmd = "bash scripts/railway-start.sh"

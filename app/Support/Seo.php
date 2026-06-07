@@ -34,7 +34,9 @@ class Seo
     public static function postOgImage(Post $post): string
     {
         if (filled($post->image_path)) {
-            return url(Storage::url($post->image_path));
+            $url = Post::publicMediaUrl($post->image_path);
+
+            return $url ?? url('/');
         }
 
         return self::defaultOgImage();

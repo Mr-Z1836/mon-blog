@@ -23,7 +23,12 @@ else
     echo "RUN_DB_SEED n'est pas activé → aucun compte démo créé à ce démarrage."
 fi
 
-php artisan storage:link 2>/dev/null || true
+php artisan storage:link --force 2>/dev/null || true
+if [ ! -f "public/storage/posts/images/default-cover.svg" ] && [ -f "storage/app/public/posts/images/default-cover.svg" ]; then
+    echo "storage:link unavailable → copying public media files ..."
+    mkdir -p public/storage
+    cp -a storage/app/public/. public/storage/
+fi
 
 php artisan config:cache --ansi
 php artisan route:cache --ansi

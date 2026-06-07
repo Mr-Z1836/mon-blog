@@ -65,17 +65,17 @@
 
             <article id="article-content" class="glass-card p-6 space-y-4"
                 @auth data-read-url="{{ route('posts.read-progress.update', $post) }}" @endauth>
-                @if ($post->image_path)
-                    <img src="{{ url(\Illuminate\Support\Facades\Storage::url($post->image_path)) }}" alt="{{ $post->title }}" class="w-full rounded-2xl object-cover max-h-[460px]" />
+                @if ($post->imageUrl())
+                    <img src="{{ $post->imageUrl() }}" alt="{{ $post->title }}" class="w-full rounded-2xl object-cover max-h-[460px]" />
                 @endif
                 @if ($youtubeId)
                     <div class="aspect-video w-full overflow-hidden rounded-2xl">
                         <iframe class="h-full w-full" src="https://www.youtube.com/embed/{{ $youtubeId }}" title="{{ $post->title }}" allowfullscreen></iframe>
                     </div>
                 @endif
-                @if ($post->video_path)
+                @if ($post->videoUrl())
                     <video controls class="w-full rounded-2xl max-h-[460px] bg-black">
-                        <source src="{{ url(\Illuminate\Support\Facades\Storage::url($post->video_path)) }}">
+                        <source src="{{ $post->videoUrl() }}">
                     </video>
                 @endif
                 <p class="text-xs text-slate-500 dark:text-slate-400">

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 #[Fillable([
     'user_id', 'category_id', 'post_series_id', 'series_part', 'title', 'slug', 'excerpt',
@@ -113,5 +114,24 @@ class Post extends Model
     public function hasCta(): bool
     {
         return filled($this->cta_text) && filled($this->cta_url);
+    }
+
+    public function imageUrl(): ?string
+    {
+        return self::publicMediaUrl($this->image_path);
+    }
+
+    public function videoUrl(): ?string
+    {
+        return self::publicMediaUrl($this->video_path);
+    }
+
+    public static function publicMediaUrl(?string $path): ?string
+    {
+        if (blank($path) || ! Storage::disk('public')->exists($path)) {
+            return null;
+        }
+
+        return asset('storage/'.$path);
     }
 }

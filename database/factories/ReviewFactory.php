@@ -31,8 +31,8 @@ class ReviewFactory extends Factory
         return [
             'post_id' => Post::factory(),
             'user_id' => User::factory(),
-            'content' => fake()->randomElement($reviews),
-            'is_approved' => fake()->boolean(70),
+            'content' => $this->faker->randomElement($reviews),
+            'is_approved' => $this->faker->boolean(70),
         ];
     }
 }

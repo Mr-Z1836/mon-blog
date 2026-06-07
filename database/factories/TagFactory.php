@@ -18,11 +18,11 @@ class TagFactory extends Factory
 
     public function definition(): array
     {
-        $name = fake()->unique()->randomElement(self::TAG_NAMES);
+        $name = $this->faker->unique()->randomElement(self::TAG_NAMES);
 
         return [
             'name' => $name,
-            'slug' => Str::slug($name).'-'.fake()->unique()->numerify('##'),
+            'slug' => Str::slug($name).'-'.$this->faker->unique()->numerify('##'),
         ];
     }
 }

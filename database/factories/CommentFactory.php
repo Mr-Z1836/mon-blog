@@ -33,8 +33,8 @@ class CommentFactory extends Factory
         return [
             'post_id' => Post::factory(),
             'user_id' => User::factory(),
-            'content' => fake()->randomElement($sentences),
-            'is_approved' => fake()->boolean(70),
+            'content' => $this->faker->randomElement($sentences),
+            'is_approved' => $this->faker->boolean(70),
         ];
     }
 }

@@ -21,11 +21,11 @@ class CategoryFactory extends Factory
 
     public function definition(): array
     {
-        $category = fake()->randomElement(self::CATEGORIES);
+        $category = $this->faker->randomElement(self::CATEGORIES);
 
         return [
             'name' => $category['name'],
-            'slug' => $category['slug'].'-'.fake()->unique()->numerify('##'),
+            'slug' => $category['slug'].'-'.$this->faker->unique()->numerify('##'),
             'description' => 'Contenus autour de la tech et de l\'entrepreneuriat africain.',
         ];
     }

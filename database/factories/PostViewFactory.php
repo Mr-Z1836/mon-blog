@@ -21,8 +21,8 @@ class PostViewFactory extends Factory
     {
         return [
             'post_id' => Post::factory(),
-            'user_id' => fake()->boolean(40) ? User::factory() : null,
-            'ip_address' => fake()->ipv4(),
+            'user_id' => $this->faker->boolean(40) ? User::factory() : null,
+            'ip_address' => $this->faker->ipv4(),
         ];
     }
 }

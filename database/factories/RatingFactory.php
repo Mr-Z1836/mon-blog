@@ -22,7 +22,7 @@ class RatingFactory extends Factory
         return [
             'post_id' => Post::factory(),
             'user_id' => User::factory(),
-            'value' => fake()->numberBetween(1, 5),
+            'value' => $this->faker->numberBetween(1, 5),
         ];
     }
 }

@@ -224,7 +224,7 @@ class BlogContentSeeder extends Seeder
             PostReaction::create([
                 'post_id' => $post->id,
                 'user_id' => $user->id,
-                'type' => fake()->randomElement(['fire', 'idea', 'clap', 'heart']),
+                'type' => \fake()->randomElement(['fire', 'idea', 'clap', 'heart']),
             ]);
         }
 
@@ -246,7 +246,7 @@ class BlogContentSeeder extends Seeder
 
         PostView::factory(rand(15, 60))->create([
             'post_id' => $post->id,
-            'country_code' => fake()->randomElement(['bj', 'sn', 'ci', 'tg', 'fr', null]),
+            'country_code' => \fake()->randomElement(['bj', 'sn', 'ci', 'tg', 'fr', null]),
             'duration_seconds' => rand(45, 480),
         ]);
 

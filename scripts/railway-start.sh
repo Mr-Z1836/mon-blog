@@ -30,6 +30,7 @@ if [ ! -f "public/storage/posts/images/default-cover.svg" ] && [ -f "storage/app
     cp -a storage/app/public/. public/storage/
 fi
 
+php artisan view:clear --ansi
 php artisan config:cache --ansi
 php artisan route:cache --ansi
 php artisan view:cache --ansi

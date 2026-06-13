@@ -80,7 +80,7 @@ Route::get('/robots.txt', function (): Response {
 Route::middleware('auth')->group(function (): void {
     Route::get('/dashboard', function (): RedirectResponse {
         return auth()->user()->is_admin
-            ? to_route('admin.dashboard')
+            ? to_route('admin.posts.index')
             : to_route('posts.index');
     })->name('dashboard');
 

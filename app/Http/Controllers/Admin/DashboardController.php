@@ -19,6 +19,8 @@ class DashboardController extends Controller
     public function index(): View
     {
         $topPosts = Post::query()
+            ->whereNotNull('slug')
+            ->where('slug', '!=', '')
             ->withCount('views')
             ->orderByDesc('views_count')
             ->limit(5)
@@ -35,9 +37,10 @@ class DashboardController extends Controller
             ->get();
 
         $singleViewSessions = PostView::query()
-            ->select('ip_address', DB::raw('count(*) as views'))
+            ->select('ip_address')
             ->groupBy('ip_address')
-            ->having('views', '=', 1)
+            ->havingRaw('COUNT(*) = 1')
+            ->get()
             ->count();
         $bounceRate = $totalViews > 0
             ? round(($singleViewSessions / max($totalViews, 1)) * 100, 1)

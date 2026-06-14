@@ -14,7 +14,7 @@ class NewsletterSubscriberController extends Controller
         return view('admin.newsletter-subscribers.index', [
             'subscribers' => NewsletterSubscriber::query()
                 ->active()
-                ->latest('subscribed_at')
+                ->latest('abonne_le')
                 ->paginate(25),
             'totalActive' => NewsletterSubscriber::query()->active()->count(),
         ]);
@@ -22,7 +22,7 @@ class NewsletterSubscriberController extends Controller
 
     public function destroy(NewsletterSubscriber $newsletterSubscriber): RedirectResponse
     {
-        $newsletterSubscriber->update(['unsubscribed_at' => now()]);
+        $newsletterSubscriber->update(['desabonne_le' => now()]);
 
         return to_route('admin.newsletter-subscribers.index')
             ->with('status', 'Abonné désinscrit.');

@@ -16,7 +16,7 @@
                 @foreach ($categories as $category)
                     <div class="flex items-center justify-between border-b py-3">
                         <div>
-                            <p class="font-medium">{{ $category->name }}</p>
+                            <p class="font-medium">{{ $category->nom }}</p>
                             <p class="text-sm text-gray-500">{{ $category->slug }}</p>
                         </div>
                         <div class="space-x-2">

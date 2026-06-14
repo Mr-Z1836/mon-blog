@@ -28,20 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const scrolled = Math.min(Math.max(-rect.top, 0), total);
         const percent = Math.round((scrolled / total) * 100);
         progressBar.style.width = `${percent}%`;
-
-        const readUrl = article.dataset.readUrl;
-
-        if (readUrl && percent > 0 && percent % 25 === 0) {
-            fetch(readUrl, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content ?? '',
-                    Accept: 'application/json',
-                },
-                body: JSON.stringify({ progress_percent: percent }),
-            }).catch(() => {});
-        }
     };
 
     window.addEventListener('scroll', updateProgress, { passive: true });

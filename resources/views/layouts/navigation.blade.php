@@ -15,7 +15,7 @@
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('home') || request()->routeIs('posts.*')">
                         Articles
                     </x-nav-link>
-                    @if (Auth::user()->is_admin)
+                    @if (Auth::user()->est_administrateur)
                         <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
                             {{ __('Admin') }}
                         </x-nav-link>
@@ -75,7 +75,7 @@
             <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('home') || request()->routeIs('posts.*')">
                 Articles
             </x-responsive-nav-link>
-            @if (Auth::user()->is_admin)
+            @if (Auth::user()->est_administrateur)
                 <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
                     {{ __('Admin') }}
                 </x-responsive-nav-link>

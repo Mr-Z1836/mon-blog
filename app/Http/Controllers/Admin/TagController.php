@@ -38,7 +38,7 @@ class TagController extends Controller
         $data = $request->validated();
 
         Tag::create([
-            'name' => $data['name'],
+            'nom' => $data['name'],
             'slug' => $this->resolveUniqueSlug($data['slug'] ?? null, $data['name']),
         ]);
 
@@ -61,7 +61,7 @@ class TagController extends Controller
         $data = $request->validated();
 
         $tag->update([
-            'name' => $data['name'],
+            'nom' => $data['name'],
             'slug' => $this->resolveUniqueSlug($data['slug'] ?? null, $data['name'], $tag->id),
         ]);
 

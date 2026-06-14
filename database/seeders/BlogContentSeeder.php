@@ -6,11 +6,8 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\NewsletterSubscriber;
 use App\Models\Post;
-use App\Models\PostBookmark;
-use App\Models\PostReaction;
 use App\Models\PostView;
 use App\Models\Rating;
-use App\Models\Review;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -67,7 +64,7 @@ class BlogContentSeeder extends Seeder
             $categories[$slug] = Category::firstOrCreate(
                 ['slug' => $slug],
                 [
-                    'name' => $data['name'],
+                    'nom' => $data['name'],
                     'description' => $data['description'],
                 ]
             );
@@ -91,7 +88,7 @@ class BlogContentSeeder extends Seeder
 
         foreach ($names as $name) {
             $slug = Str::slug($name);
-            $tags[$slug] = Tag::create(['name' => $name, 'slug' => $slug]);
+            $tags[$slug] = Tag::create(['nom' => $name, 'slug' => $slug]);
         }
 
         return $tags;
@@ -115,21 +112,21 @@ class BlogContentSeeder extends Seeder
                 'category_id' => $category->id,
                 'post_series_id' => null,
                 'series_part' => null,
-                'title' => $article['title'],
+                'titre' => $article['title'],
                 'slug' => $article['slug'],
-                'excerpt' => $article['excerpt'],
+                'resume' => $article['excerpt'],
                 'meta_title' => $article['title'].' — Built in Benin',
                 'meta_description' => $article['excerpt'],
                 'cta_title' => $cta['title'],
                 'cta_text' => $cta['text'],
                 'cta_url' => $cta['url'],
                 'image_path' => $article['image_path'] ?? 'posts/images/default-cover.svg',
-                'content' => $article['content'],
+                'contenu' => $article['content'],
                 'youtube_url' => $article['youtube_url'] ?? null,
-                'is_published' => true,
-                'is_pinned' => $article['is_pinned'] ?? false,
-                'is_featured' => $article['is_featured'] ?? false,
-                'published_at' => now()->subDays(20 - $index),
+                'est_publie' => true,
+                'est_epingle' => $article['is_pinned'] ?? false,
+                'est_a_la_une' => $article['is_featured'] ?? false,
+                'publie_le' => now()->subDays(20 - $index),
             ]);
 
             $tagIds = collect($article['tags'])
@@ -201,7 +198,7 @@ class BlogContentSeeder extends Seeder
             NewsletterSubscriber::create([
                 'email' => $entry['email'],
                 'source' => $entry['source'],
-                'subscribed_at' => now()->subDays(rand(1, 30)),
+                'abonne_le' => now()->subDays(rand(1, 30)),
             ]);
         }
     }
@@ -215,24 +212,13 @@ class BlogContentSeeder extends Seeder
                 'post_id' => $post->id,
                 'user_id' => $user->id,
             ]);
-
-            Review::factory()->create([
-                'post_id' => $post->id,
-                'user_id' => $user->id,
-            ]);
-
-            PostReaction::create([
-                'post_id' => $post->id,
-                'user_id' => $user->id,
-                'type' => \fake()->randomElement(['fire', 'idea', 'clap', 'heart']),
-            ]);
         }
 
         $rootComment = Comment::factory()->create([
             'post_id' => $post->id,
             'user_id' => $reader->id,
-            'content' => 'Super article, très utile pour le contexte africain !',
-            'is_approved' => true,
+            'contenu' => 'Super article, très utile pour le contexte africain !',
+            'est_approuve' => true,
         ]);
 
         Comment::factory()->create([
@@ -240,19 +226,14 @@ class BlogContentSeeder extends Seeder
             'user_id' => $admin->id,
             'parent_id' => $rootComment->id,
             'mentioned_user_id' => $reader->id,
-            'content' => '@'.$reader->username.' merci ! N\'hésite pas à partager ton retour d\'expérience.',
-            'is_approved' => true,
+            'contenu' => '@'.$reader->username.' merci ! N\'hésite pas à partager ton retour d\'expérience.',
+            'est_approuve' => true,
         ]);
 
         PostView::factory(rand(15, 60))->create([
             'post_id' => $post->id,
             'country_code' => \fake()->randomElement(['bj', 'sn', 'ci', 'tg', 'fr', null]),
             'duration_seconds' => rand(45, 480),
-        ]);
-
-        PostBookmark::firstOrCreate([
-            'post_id' => $post->id,
-            'user_id' => $reader->id,
         ]);
     }
 }

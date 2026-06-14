@@ -50,10 +50,10 @@ class Seo
         return [
             '@context' => 'https://schema.org',
             '@type' => 'BlogPosting',
-            'headline' => $post->meta_title ?: $post->title,
+            'headline' => $post->meta_title ?: $post->titre,
             'description' => $description,
             'image' => [self::postOgImage($post)],
-            'datePublished' => $post->published_at?->toIso8601String(),
+            'datePublished' => $post->publie_le?->toIso8601String(),
             'dateModified' => $post->updated_at->toIso8601String(),
             'author' => [
                 '@type' => 'Person',
@@ -68,7 +68,7 @@ class Seo
                 '@type' => 'WebPage',
                 '@id' => route('posts.show', $post),
             ],
-            'articleSection' => $post->category->name,
+            'articleSection' => $post->category->nom,
             'inLanguage' => 'fr',
         ];
     }

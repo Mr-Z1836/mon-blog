@@ -20,11 +20,11 @@ class CommentController extends Controller
             'user_id' => $request->user()->id,
             'parent_id' => $request->validated('parent_id'),
             'mentioned_user_id' => $mentionedUsers->first()?->id,
-            'content' => $content,
-            'is_approved' => ! $requiresModeration,
+            'contenu' => $content,
+            'est_approuve' => ! $requiresModeration,
         ]);
 
-        if ($comment->is_approved) {
+        if ($comment->est_approuve) {
             CommentNotifier::send($comment, $mentionedUsers);
         }
 

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['post_id', 'user_id', 'parent_id', 'mentioned_user_id', 'content', 'is_approved'])]
+#[Fillable(['post_id', 'user_id', 'parent_id', 'mentioned_user_id', 'contenu', 'est_approuve'])]
 class Comment extends Model
 {
     /** @use HasFactory<CommentFactory> */
@@ -18,7 +18,7 @@ class Comment extends Model
     protected function casts(): array
     {
         return [
-            'is_approved' => 'boolean',
+            'est_approuve' => 'boolean',
         ];
     }
 

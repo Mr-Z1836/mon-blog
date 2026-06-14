@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['name', 'slug'])]
+#[Fillable(['nom', 'slug'])]
 class Tag extends Model
 {
     /** @use HasFactory<TagFactory> */

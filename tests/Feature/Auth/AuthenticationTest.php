@@ -44,7 +44,7 @@ class AuthenticationTest extends TestCase
 
     public function test_admin_users_are_redirected_to_admin_posts_after_login(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['est_administrateur' => true]);
 
         $response = $this->post('/login', [
             'email' => $admin->email,

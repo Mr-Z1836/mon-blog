@@ -10,12 +10,12 @@
                     <tr class="border-t">
                         <td class="p-3">{{ $user->name }}</td>
                         <td class="p-3">{{ $user->email }}</td>
-                        <td class="p-3 text-center">{{ $user->is_admin ? 'Oui' : 'Non' }}</td>
+                        <td class="p-3 text-center">{{ $user->est_administrateur ? 'Oui' : 'Non' }}</td>
                         <td class="p-3">
                             <form method="POST" action="{{ route('admin.users.update', $user) }}" class="inline-flex gap-2 items-center">
                                 @csrf @method('PUT')
                                 <input name="username" value="{{ $user->username }}" placeholder="pseudo" class="rounded border-gray-300 text-xs w-24">
-                                <label class="text-xs"><input type="checkbox" name="is_admin" value="1" @checked($user->is_admin)> admin</label>
+                                <label class="text-xs"><input type="checkbox" name="is_admin" value="1" @checked($user->est_administrateur)> admin</label>
                                 <button class="text-brand-red text-xs">OK</button>
                             </form>
                         </td>

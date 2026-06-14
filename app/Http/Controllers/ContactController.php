@@ -20,7 +20,11 @@ class ContactController extends Controller
     {
         $data = $request->validated();
 
-        $contactMessage = ContactMessage::create($data);
+        $contactMessage = ContactMessage::create([
+            'nom' => $data['name'],
+            'email' => $data['email'],
+            'message' => $data['message'],
+        ]);
 
         $adminEmail = config('blog.contact_email');
 

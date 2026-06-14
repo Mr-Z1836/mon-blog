@@ -1,6 +1,6 @@
 @php
     $shareUrl = urlencode(route('posts.show', $post));
-    $shareTitle = urlencode($post->title);
+    $shareTitle = urlencode($post->titre);
 @endphp
 <div class="flex flex-wrap items-center gap-2 pt-2">
     <span class="text-xs text-slate-500">Partager :</span>

@@ -15,7 +15,7 @@ class EnsureAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        abort_unless((bool) $request->user()?->is_admin, 403);
+        abort_unless((bool) $request->user()?->est_administrateur, 403);
 
         return $next($request);
     }

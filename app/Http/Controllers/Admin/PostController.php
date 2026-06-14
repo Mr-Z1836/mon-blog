@@ -22,7 +22,7 @@ class PostController extends Controller
     public function index(): View
     {
         return view('admin.posts.index', [
-            'posts' => Post::with(['category:id,name', 'author:id,name'])
+            'posts' => Post::with(['category:id,nom', 'author:id,name'])
                 ->withCount('views')
                 ->withAvg('ratings', 'value')
                 ->latest()
@@ -36,8 +36,8 @@ class PostController extends Controller
     public function create(): View
     {
         return view('admin.posts.create', [
-            'categories' => Category::orderBy('name')->get(['id', 'name']),
-            'tags' => Tag::orderBy('name')->get(['id', 'name']),
+            'categories' => Category::orderBy('nom')->get(['id', 'nom']),
+            'tags' => Tag::orderBy('nom')->get(['id', 'nom']),
             'seriesList' => PostSeries::orderBy('title')->get(['id', 'title']),
         ]);
     }
@@ -51,9 +51,9 @@ class PostController extends Controller
         $post = Post::create([
             'user_id' => $request->user()->id,
             'category_id' => $data['category_id'],
-            'title' => $data['title'],
+            'titre' => $data['title'],
             'slug' => $this->resolveUniqueSlug($data['slug'] ?? null, $data['title']),
-            'excerpt' => $data['excerpt'] ?? null,
+            'resume' => $data['excerpt'] ?? null,
             'image_path' => $request->hasFile('image')
                 ? $request->file('image')->store('posts/images', 'public')
                 : null,
@@ -61,8 +61,8 @@ class PostController extends Controller
                 ? $request->file('video')->store('posts/videos', 'public')
                 : null,
             ...$this->editorFields($data),
-            'is_published' => (bool) ($data['is_published'] ?? false),
-            'published_at' => ($data['is_published'] ?? false) ? ($data['published_at'] ?? now()) : null,
+            'est_publie' => (bool) ($data['is_published'] ?? false),
+            'publie_le' => ($data['is_published'] ?? false) ? ($data['published_at'] ?? now()) : null,
             'autosaved_at' => now(),
         ]);
 
@@ -78,8 +78,8 @@ class PostController extends Controller
     {
         return view('admin.posts.edit', [
             'post' => $post->load('tags:id'),
-            'categories' => Category::orderBy('name')->get(['id', 'name']),
-            'tags' => Tag::orderBy('name')->get(['id', 'name']),
+            'categories' => Category::orderBy('nom')->get(['id', 'nom']),
+            'tags' => Tag::orderBy('nom')->get(['id', 'nom']),
             'seriesList' => PostSeries::orderBy('title')->get(['id', 'title']),
         ]);
     }
@@ -126,14 +126,14 @@ class PostController extends Controller
 
         $post->update([
             'category_id' => $data['category_id'],
-            'title' => $data['title'],
+            'titre' => $data['title'],
             'slug' => $this->resolveUniqueSlug($data['slug'] ?? null, $data['title'], $post->id),
-            'excerpt' => $data['excerpt'] ?? null,
+            'resume' => $data['excerpt'] ?? null,
             'image_path' => $imagePath,
             'video_path' => $videoPath,
             ...$this->editorFields($data),
-            'is_published' => (bool) ($data['is_published'] ?? false),
-            'published_at' => ($data['is_published'] ?? false) ? ($data['published_at'] ?? $post->published_at ?? now()) : null,
+            'est_publie' => (bool) ($data['is_published'] ?? false),
+            'publie_le' => ($data['is_published'] ?? false) ? ($data['published_at'] ?? $post->publie_le ?? now()) : null,
             'autosaved_at' => now(),
         ]);
 
@@ -187,7 +187,7 @@ class PostController extends Controller
     private function editorFields(array $data): array
     {
         return [
-            'content' => $data['content'],
+            'contenu' => $data['content'],
             'content_html' => $data['content_html'] ?? null,
             'meta_title' => $data['meta_title'] ?? null,
             'meta_description' => $data['meta_description'] ?? null,
@@ -197,8 +197,8 @@ class PostController extends Controller
             'youtube_url' => $data['youtube_url'] ?? null,
             'post_series_id' => $data['post_series_id'] ?? null,
             'series_part' => $data['series_part'] ?? null,
-            'is_pinned' => (bool) ($data['is_pinned'] ?? false),
-            'is_featured' => (bool) ($data['is_featured'] ?? false),
+            'est_epingle' => (bool) ($data['is_pinned'] ?? false),
+            'est_a_la_une' => (bool) ($data['is_featured'] ?? false),
         ];
     }
 }

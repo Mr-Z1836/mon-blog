@@ -16,14 +16,14 @@ class DatabaseSeeder extends Seeder
             'name' => 'Starboy',
             'username' => 'starboy',
             'email' => 'harrydedji@gmail.com',
-            'is_admin' => true,
+            'est_administrateur' => true,
         ]);
 
         $reader = User::factory()->create([
             'name' => 'Amina K.',
             'username' => 'amina_k',
             'email' => 'test@example.com',
-            'is_admin' => false,
+            'est_administrateur' => false,
         ]);
 
         User::factory(8)->create();

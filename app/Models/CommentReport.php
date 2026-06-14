@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['comment_id', 'user_id', 'reason', 'status'])]
+#[Fillable(['comment_id', 'user_id', 'reporter_ip', 'motif', 'statut'])]
 class CommentReport extends Model
 {
     public function comment(): BelongsTo

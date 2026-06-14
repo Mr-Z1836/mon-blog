@@ -29,7 +29,7 @@ class NewsletterSubscriptionController extends Controller
         NewsletterSubscriber::create([
             'email' => $email,
             'source' => $source,
-            'subscribed_at' => now(),
+            'abonne_le' => now(),
         ]);
 
         return back()->with('status', 'Merci ! Tu es abonné à la newsletter Built in Benin.');

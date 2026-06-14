@@ -1,7 +1,7 @@
 ﻿<x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800">Message de {{ $contactMessage->name }}</h2>
+            <h2 class="font-semibold text-xl text-gray-800">Message de {{ $contactMessage->nom }}</h2>
             <a href="{{ route('admin.contact-messages.index') }}" class="text-sm text-brand-red">← Retour</a>
         </div>
     </x-slot>

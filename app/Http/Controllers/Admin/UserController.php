@@ -29,7 +29,7 @@ class UserController extends Controller
         }
 
         $user->update([
-            'is_admin' => (bool) ($data['is_admin'] ?? false),
+            'est_administrateur' => (bool) ($data['is_admin'] ?? false),
             'username' => $data['username'] ?? $user->username,
         ]);
 

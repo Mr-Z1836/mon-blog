@@ -81,7 +81,7 @@
                     <span x-show="dark" x-cloak>☀️</span>
                 </button>
                 @auth
-                    @if (auth()->user()->is_admin)
+                    @if (auth()->user()->est_administrateur)
                         <a href="{{ route('admin.dashboard') }}" class="nav-link">Admin</a>
                     @endif
                     <a href="{{ route('profile.edit') }}" class="nav-link">Profil</a>

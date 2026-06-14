@@ -31,14 +31,14 @@ class PostFactory extends Factory
         return [
             'user_id' => User::factory(),
             'category_id' => Category::query()->inRandomOrder()->value('id') ?? Category::factory(),
-            'title' => $title,
+            'titre' => $title,
             'slug' => Str::slug($title).'-'.$this->faker->unique()->numerify('###'),
-            'excerpt' => $this->faker->sentence(12),
+            'resume' => $this->faker->sentence(12),
             'image_path' => 'posts/images/default-cover.svg',
             'video_path' => null,
-            'content' => $content,
-            'is_published' => true,
-            'published_at' => $this->faker->dateTimeBetween('-2 months', 'now'),
+            'contenu' => $content,
+            'est_publie' => true,
+            'publie_le' => $this->faker->dateTimeBetween('-2 months', 'now'),
         ];
     }
 }

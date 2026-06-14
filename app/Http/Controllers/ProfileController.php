@@ -20,18 +20,8 @@ class ProfileController extends Controller
 
         return view('profile.edit', [
             'user' => $user,
-            'bookmarks' => $user->bookmarks()
-                ->with(['post' => fn ($q) => $q->published()->select(['id', 'title', 'slug', 'published_at'])])
-                ->latest()
-                ->limit(10)
-                ->get(),
-            'readHistories' => $user->readHistories()
-                ->with(['post' => fn ($q) => $q->published()->select(['id', 'title', 'slug', 'published_at'])])
-                ->orderByDesc('last_read_at')
-                ->limit(10)
-                ->get(),
-            'comments' => $user->comments()->with('post:id,title,slug')->latest()->limit(10)->get(),
-            'ratings' => $user->ratings()->with('post:id,title,slug')->latest()->limit(10)->get(),
+            'comments' => $user->comments()->with('post:id,titre,slug')->latest()->limit(10)->get(),
+            'ratings' => $user->ratings()->with('post:id,titre,slug')->latest()->limit(10)->get(),
         ]);
     }
 

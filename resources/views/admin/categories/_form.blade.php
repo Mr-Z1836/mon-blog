@@ -11,7 +11,7 @@
 <div class="space-y-4">
     <div>
         <label class="block text-sm font-medium">Nom</label>
-        <input name="name" value="{{ old('name', $category->name ?? '') }}" class="mt-1 w-full rounded-md border-gray-300" required>
+        <input name="name" value="{{ old('name', $category->nom ?? '') }}" class="mt-1 w-full rounded-md border-gray-300" required>
     </div>
     <div>
         <label class="block text-sm font-medium">Slug</label>

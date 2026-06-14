@@ -8,13 +8,22 @@ class StoreCommentReportRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user() !== null;
+        return true;
     }
 
     public function rules(): array
     {
         return [
-            'reason' => ['required', 'string', 'max:1000'],
+            'reason' => ['required', 'string', 'min:10', 'max:1000'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'reason.required' => 'Merci d\'expliquer pourquoi tu signales ce commentaire.',
+            'reason.min' => 'Le motif doit contenir au moins :min caractères.',
+            'reason.max' => 'Le motif ne peut pas dépasser :max caractères.',
         ];
     }
 }

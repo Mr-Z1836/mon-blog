@@ -29,7 +29,7 @@ class CommentMentionNotification extends Notification
             ->subject($this->comment->user->name.' t\'a mentionné sur Built in Benin')
             ->greeting('Bonjour '.$notifiable->name.',')
             ->line($this->comment->user->name.' t\'a mentionné dans un commentaire.')
-            ->line('« '.\Illuminate\Support\Str::limit($this->comment->content, 200).' »')
+            ->line('« '.\Illuminate\Support\Str::limit($this->comment->contenu, 200).' »')
             ->action('Voir le commentaire', route('posts.show', $this->comment->post));
     }
 }

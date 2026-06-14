@@ -10,7 +10,6 @@ use App\Models\ContactMessage;
 use App\Models\NewsletterSubscriber;
 use App\Models\Post;
 use App\Models\PostView;
-use App\Models\Review;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +23,7 @@ class DashboardController extends Controller
             ->withCount('views')
             ->orderByDesc('views_count')
             ->limit(5)
-            ->get(['id', 'title', 'slug']);
+            ->get(['id', 'titre', 'slug']);
 
         $totalViews = PostView::count();
         $avgDuration = (int) round((float) PostView::avg('duration_seconds'));
@@ -48,16 +47,15 @@ class DashboardController extends Controller
 
         $categories = Category::query()
             ->withCount('posts')
-            ->orderBy('name')
-            ->get(['id', 'name', 'slug']);
+            ->orderBy('nom')
+            ->get(['id', 'nom', 'slug']);
 
         return view('admin.dashboard', [
             'categories' => $categories,
             'postsCount' => Post::count(),
-            'pendingCommentsCount' => Comment::where('is_approved', false)->count(),
-            'pendingReviewsCount' => Review::where('is_approved', false)->count(),
-            'pendingReportsCount' => CommentReport::where('status', 'pending')->count(),
-            'unreadContactCount' => ContactMessage::whereNull('read_at')->count(),
+            'pendingCommentsCount' => Comment::where('est_approuve', false)->count(),
+            'pendingReportsCount' => CommentReport::where('statut', 'en_attente')->count(),
+            'unreadContactCount' => ContactMessage::whereNull('lu_le')->count(),
             'newsletterSubscribersCount' => NewsletterSubscriber::query()->active()->count(),
             'totalViews' => $totalViews,
             'avgDuration' => $avgDuration,

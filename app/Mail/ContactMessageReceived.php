@@ -18,7 +18,7 @@ class ContactMessageReceived extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '[Built in Benin] Nouveau message de '.$this->contactMessage->name,
+            subject: '[Built in Benin] Nouveau message de '.$this->contactMessage->nom,
             replyTo: [$this->contactMessage->email],
         );
     }

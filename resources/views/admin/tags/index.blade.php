@@ -16,7 +16,7 @@
                 @foreach ($tags as $tag)
                     <div class="flex items-center justify-between border-b py-3">
                         <div>
-                            <p class="font-medium">{{ $tag->name }}</p>
+                            <p class="font-medium">{{ $tag->nom }}</p>
                             <p class="text-sm text-gray-500">{{ $tag->slug }}</p>
                         </div>
                         <div class="space-x-2">

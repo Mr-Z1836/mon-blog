@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="grid gap-4 md:grid-cols-4">
+            <div class="grid gap-4 md:grid-cols-3">
                 <div class="rounded-lg bg-white p-5 shadow">
                     <p class="text-sm text-gray-500">Temps moyen (s)</p>
                     <p class="text-xl font-bold">{{ $avgDuration }}</p>
@@ -40,10 +40,6 @@
                 <div class="rounded-lg bg-white p-5 shadow">
                     <p class="text-sm text-gray-500">Vues totales</p>
                     <p class="text-xl font-bold">{{ $totalViews }}</p>
-                </div>
-                <div class="rounded-lg bg-white p-5 shadow">
-                    <p class="text-sm text-gray-500">Avis en attente</p>
-                    <p class="text-xl font-bold">{{ $pendingReviewsCount }}</p>
                 </div>
             </div>
 
@@ -61,7 +57,7 @@
                 <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($categories as $category)
                         <div class="rounded border border-brand-green/20 px-4 py-3">
-                            <p class="font-medium text-brand-red">{{ $category->name }}</p>
+                            <p class="font-medium text-brand-red">{{ $category->nom }}</p>
                             <p class="mt-1 text-sm text-gray-600">{{ $category->posts_count }} article(s)</p>
                             <div class="mt-2 flex gap-3 text-xs">
                                 <a class="text-brand-green underline" href="{{ route('posts.index', ['category' => $category->slug]) }}">Voir sur le blog</a>
@@ -76,7 +72,7 @@
                 <h3 class="text-lg font-semibold">Articles populaires</h3>
                 @forelse ($topPosts as $post)
                     <div class="flex justify-between border-b pb-2">
-                        <a class="text-brand-red" href="{{ route('admin.posts.edit', $post) }}">{{ $post->title }}</a>
+                        <a class="text-brand-red" href="{{ route('admin.posts.edit', $post) }}">{{ $post->titre }}</a>
                         <span class="text-sm text-gray-600">{{ $post->views_count }} vues</span>
                     </div>
                 @empty
@@ -90,7 +86,6 @@
                     <a class="rounded border border-brand-green/30 px-4 py-3 text-brand-red hover:bg-brand-yellow/10" href="{{ route('admin.posts.index') }}">Articles</a>
                     <a class="rounded border border-brand-green/30 px-4 py-3 text-brand-red hover:bg-brand-yellow/10" href="{{ route('admin.posts.create') }}">Nouveau post</a>
                     <a class="rounded border border-brand-green/30 px-4 py-3 text-brand-red hover:bg-brand-yellow/10" href="{{ route('admin.series.index') }}">Séries</a>
-                    <a class="rounded border border-brand-green/30 px-4 py-3 text-brand-red hover:bg-brand-yellow/10" href="{{ route('admin.media.index') }}">Médias</a>
                     <a class="rounded border border-brand-green/30 px-4 py-3 text-brand-red hover:bg-brand-yellow/10" href="{{ route('admin.categories.index') }}">Catégories</a>
                     <a class="rounded border border-brand-green/30 px-4 py-3 text-brand-red hover:bg-brand-yellow/10" href="{{ route('admin.tags.index') }}">Tags</a>
                     <a class="rounded border border-brand-green/30 px-4 py-3 text-brand-red hover:bg-brand-yellow/10" href="{{ route('admin.comments.index') }}">Commentaires</a>

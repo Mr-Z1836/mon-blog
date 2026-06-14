@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 
 #[Fillable([
-    'user_id', 'category_id', 'post_series_id', 'series_part', 'title', 'slug', 'excerpt',
+    'user_id', 'category_id', 'post_series_id', 'series_part', 'titre', 'slug', 'resume',
     'meta_title', 'meta_description', 'cta_title', 'cta_text', 'cta_url', 'image_path', 'video_path',
-    'youtube_url', 'content', 'content_html', 'is_published', 'is_pinned', 'is_featured', 'published_at',
+    'youtube_url', 'contenu', 'content_html', 'est_publie', 'est_epingle', 'est_a_la_une', 'publie_le',
     'autosaved_at',
 ])]
 class Post extends Model
@@ -27,10 +27,10 @@ class Post extends Model
     protected function casts(): array
     {
         return [
-            'is_published' => 'boolean',
-            'is_pinned' => 'boolean',
-            'is_featured' => 'boolean',
-            'published_at' => 'datetime',
+            'est_publie' => 'boolean',
+            'est_epingle' => 'boolean',
+            'est_a_la_une' => 'boolean',
+            'publie_le' => 'datetime',
             'autosaved_at' => 'datetime',
         ];
     }
@@ -39,9 +39,9 @@ class Post extends Model
     protected function published(Builder $query): void
     {
         $query
-            ->where('is_published', true)
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now());
+            ->where('est_publie', true)
+            ->whereNotNull('publie_le')
+            ->where('publie_le', '<=', now());
     }
 
     public function getRouteKeyName(): string
@@ -79,34 +79,14 @@ class Post extends Model
         return $this->hasMany(Rating::class);
     }
 
-    public function reviews(): HasMany
-    {
-        return $this->hasMany(Review::class);
-    }
-
     public function views(): HasMany
     {
         return $this->hasMany(PostView::class);
     }
 
-    public function reactions(): HasMany
-    {
-        return $this->hasMany(PostReaction::class);
-    }
-
-    public function bookmarks(): HasMany
-    {
-        return $this->hasMany(PostBookmark::class);
-    }
-
-    public function readHistories(): HasMany
-    {
-        return $this->hasMany(PostReadHistory::class);
-    }
-
     public function readingTimeMinutes(): int
     {
-        $wordCount = str_word_count(strip_tags((string) $this->content));
+        $wordCount = str_word_count(strip_tags((string) $this->contenu));
 
         return max(1, (int) ceil($wordCount / 200));
     }

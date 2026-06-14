@@ -21,7 +21,7 @@ class TagFactory extends Factory
         $name = $this->faker->unique()->randomElement(self::TAG_NAMES);
 
         return [
-            'name' => $name,
+            'nom' => $name,
             'slug' => Str::slug($name).'-'.$this->faker->unique()->numerify('##'),
         ];
     }

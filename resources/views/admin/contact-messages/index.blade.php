@@ -9,9 +9,9 @@
                 <a href="{{ route('admin.contact-messages.show', $message) }}" class="block p-4 hover:bg-gray-50">
                     <div class="flex justify-between gap-4">
                         <div>
-                            <p class="font-semibold {{ $message->read_at ? 'text-gray-700' : 'text-brand-red' }}">
-                                {{ $message->name }}
-                                @if (! $message->read_at)
+                            <p class="font-semibold {{ $message->lu_le ? 'text-gray-700' : 'text-brand-red' }}">
+                                {{ $message->nom }}
+                                @if (! $message->lu_le)
                                     <span class="ml-2 rounded bg-brand-yellow/20 px-2 py-0.5 text-xs text-brand-yellow">Nouveau</span>
                                 @endif
                             </p>

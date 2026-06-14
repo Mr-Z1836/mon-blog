@@ -24,7 +24,7 @@ class CategoryFactory extends Factory
         $category = $this->faker->randomElement(self::CATEGORIES);
 
         return [
-            'name' => $category['name'],
+            'nom' => $category['name'],
             'slug' => $category['slug'].'-'.$this->faker->unique()->numerify('##'),
             'description' => 'Contenus autour de la tech et de l\'entrepreneuriat africain.',
         ];

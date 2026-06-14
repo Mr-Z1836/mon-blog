@@ -31,7 +31,7 @@ class AuthenticatedSessionController extends Controller
         $user = $request->user();
 
         return redirect()->intended(
-            $user->is_admin
+            $user->est_administrateur
                 ? route('admin.posts.index', absolute: false)
                 : route('posts.index', absolute: false)
         );

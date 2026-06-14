@@ -24,7 +24,7 @@
                         <tr>
                             <td class="px-4 py-3 font-medium text-gray-800">{{ $subscriber->email }}</td>
                             <td class="px-4 py-3 text-gray-500">{{ $subscriber->source ?: '—' }}</td>
-                            <td class="px-4 py-3 text-gray-500">{{ $subscriber->subscribed_at->format('d/m/Y H:i') }}</td>
+                            <td class="px-4 py-3 text-gray-500">{{ $subscriber->abonne_le->format('d/m/Y H:i') }}</td>
                             <td class="px-4 py-3 text-right">
                                 <form method="POST" action="{{ route('admin.newsletter-subscribers.destroy', $subscriber) }}" onsubmit="return confirm('Désinscrire cet abonné ?');">
                                     @csrf

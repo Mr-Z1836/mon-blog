@@ -4,10 +4,10 @@
     $hasSearch = filled($keyword);
     $isPaginated = $posts->currentPage() > 1;
     $categoryLabel = $selectedCategory
-        ? $categories->firstWhere('slug', $selectedCategory)?->name
+        ? $categories->firstWhere('slug', $selectedCategory)?->nom
         : null;
     $tagLabel = $selectedTag
-        ? $tags->firstWhere('slug', $selectedTag)?->name
+        ? $tags->firstWhere('slug', $selectedTag)?->nom
         : null;
     $listTitle = match (true) {
         filled($categoryLabel) && filled($tagLabel) => "{$categoryLabel} · {$tagLabel} — Articles",
@@ -70,7 +70,7 @@
                     <option value="">Toutes les catégories</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->slug }}" @selected($selectedCategory === $category->slug)>
-                            {{ $category->name }}
+                            {{ $category->nom }}
                         </option>
                     @endforeach
                 </select>
@@ -78,7 +78,7 @@
                     <option value="">Tous les tags</option>
                     @foreach ($tags as $tag)
                         <option value="{{ $tag->slug }}" @selected($selectedTag === $tag->slug)>
-                            {{ $tag->name }}
+                            {{ $tag->nom }}
                         </option>
                     @endforeach
                 </select>
@@ -90,7 +90,7 @@
         </div>
 
         @auth
-            @if (auth()->user()->is_admin)
+            @if (auth()->user()->est_administrateur)
                 <a href="{{ route('admin.dashboard') }}" class="btn-neon inline-flex text-sm">
                     Accéder à l'administration
                 </a>
@@ -101,23 +101,23 @@
             @forelse ($posts as $post)
                 <article class="glass-card p-5 transition hover:-translate-y-1 hover:border-brand-green/50/40">
                     @if ($post->imageUrl())
-                        <img src="{{ $post->imageUrl() }}" alt="{{ $post->title }}" class="mb-3 h-44 w-full rounded-xl object-cover" />
+                        <img src="{{ $post->imageUrl() }}" alt="{{ $post->titre }}" class="mb-3 h-44 w-full rounded-xl object-cover" />
                     @elseif ($post->videoUrl())
                         <video class="mb-3 h-44 w-full rounded-xl object-cover" muted controls>
                             <source src="{{ $post->videoUrl() }}">
                         </video>
                     @endif
                     <p class="text-xs text-slate-500 dark:text-slate-400">
-                        {{ optional($post->published_at)->format('d/m/Y') }} · {{ $post->category->name }} · {{ $post->readingTimeMinutes() }} min
+                        {{ optional($post->publie_le)->format('d/m/Y') }} · {{ $post->category->nom }} · {{ $post->readingTimeMinutes() }} min
                     </p>
                     <h2 class="mt-2 text-lg font-bold text-slate-900 dark:text-slate-100">
-                        @if ($post->is_pinned)<span class="text-brand-red text-xs">📌 </span>@endif
-                        {{ $post->title }}
+                        @if ($post->est_epingle)<span class="text-brand-red text-xs">📌 </span>@endif
+                        {{ $post->titre }}
                     </h2>
-                    <p class="mt-2 text-sm text-slate-600">{{ $post->excerpt ?: \Illuminate\Support\Str::limit($post->content, 120) }}</p>
+                    <p class="mt-2 text-sm text-slate-600">{{ $post->resume ?: \Illuminate\Support\Str::limit($post->contenu, 120) }}</p>
                     <div class="mt-3 flex flex-wrap gap-2">
                         @foreach ($post->tags as $tag)
-                            <span class="chip">{{ $tag->name }}</span>
+                            <span class="chip">{{ $tag->nom }}</span>
                         @endforeach
                     </div>
                     <div class="mt-4 flex items-center justify-between text-xs text-slate-500">

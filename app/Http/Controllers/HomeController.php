@@ -30,17 +30,17 @@ class HomeController extends Controller
         $tagSlug = $request->string('tag')->toString();
 
         $posts = Post::query()
-            ->select(['id', 'user_id', 'category_id', 'title', 'slug', 'excerpt', 'image_path', 'video_path', 'content', 'published_at'])
-            ->with(['author:id,name', 'category:id,name,slug', 'tags:id,name,slug'])
+            ->select(['id', 'user_id', 'category_id', 'titre', 'slug', 'resume', 'image_path', 'video_path', 'contenu', 'publie_le'])
+            ->with(['author:id,name', 'category:id,nom,slug', 'tags:id,nom,slug'])
             ->withCount('views')
             ->withAvg('ratings', 'value')
             ->published()
             ->when($keyword !== '', function ($query) use ($keyword): void {
                 $query->where(function ($innerQuery) use ($keyword): void {
                     $innerQuery
-                        ->where('title', 'like', "%{$keyword}%")
-                        ->orWhere('excerpt', 'like', "%{$keyword}%")
-                        ->orWhere('content', 'like', "%{$keyword}%");
+                        ->where('titre', 'like', "%{$keyword}%")
+                        ->orWhere('resume', 'like', "%{$keyword}%")
+                        ->orWhere('contenu', 'like', "%{$keyword}%");
                 });
             })
             ->when($categorySlug !== '', function ($query) use ($categorySlug): void {
@@ -49,15 +49,15 @@ class HomeController extends Controller
             ->when($tagSlug !== '', function ($query) use ($tagSlug): void {
                 $query->whereHas('tags', fn ($tagQuery) => $tagQuery->where('slug', $tagSlug));
             })
-            ->orderByDesc('is_pinned')
-            ->latest('published_at')
+            ->orderByDesc('est_epingle')
+            ->latest('publie_le')
             ->paginate(9)
             ->withQueryString();
 
         return view('home', [
             'posts' => $posts,
-            'categories' => Category::orderBy('name')->get(['id', 'name', 'slug']),
-            'tags' => Tag::orderBy('name')->get(['id', 'name', 'slug']),
+            'categories' => Category::orderBy('nom')->get(['id', 'nom', 'slug']),
+            'tags' => Tag::orderBy('nom')->get(['id', 'nom', 'slug']),
             'keyword' => $keyword,
             'selectedCategory' => $categorySlug,
             'selectedTag' => $tagSlug,

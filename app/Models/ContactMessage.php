@@ -5,20 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['name', 'email', 'message', 'read_at'])]
+#[Fillable(['nom', 'email', 'message', 'lu_le'])]
 class ContactMessage extends Model
 {
     protected function casts(): array
     {
         return [
-            'read_at' => 'datetime',
+            'lu_le' => 'datetime',
         ];
     }
 
     public function markAsRead(): void
     {
-        if ($this->read_at === null) {
-            $this->update(['read_at' => now()]);
+        if ($this->lu_le === null) {
+            $this->update(['lu_le' => now()]);
         }
     }
 }

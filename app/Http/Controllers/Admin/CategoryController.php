@@ -38,7 +38,7 @@ class CategoryController extends Controller
         $data = $request->validated();
 
         Category::create([
-            'name' => $data['name'],
+            'nom' => $data['name'],
             'slug' => $this->resolveUniqueSlug($data['slug'] ?? null, $data['name']),
             'description' => $data['description'] ?? null,
         ]);
@@ -62,7 +62,7 @@ class CategoryController extends Controller
         $data = $request->validated();
 
         $category->update([
-            'name' => $data['name'],
+            'nom' => $data['name'],
             'slug' => $this->resolveUniqueSlug($data['slug'] ?? null, $data['name'], $category->id),
             'description' => $data['description'] ?? null,
         ]);

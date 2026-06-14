@@ -28,10 +28,10 @@
                     <tbody>
                         @foreach ($posts as $post)
                             <tr class="border-t">
-                                <td class="px-4 py-3">{{ $post->title }}</td>
-                                <td class="px-4 py-3">{{ $post->category->name }}</td>
+                                <td class="px-4 py-3">{{ $post->titre }}</td>
+                                <td class="px-4 py-3">{{ $post->category->nom }}</td>
                                 <td class="px-4 py-3">{{ $post->author->name }}</td>
-                                <td class="px-4 py-3">{{ $post->is_published ? 'Oui' : 'Non' }}</td>
+                                <td class="px-4 py-3">{{ $post->est_publie ? 'Oui' : 'Non' }}</td>
                                 <td class="px-4 py-3">{{ $post->views_count }}</td>
                                 <td class="px-4 py-3">{{ number_format((float) $post->ratings_avg_value, 1) }}/5</td>
                                 <td class="px-4 py-3 text-right space-x-2">

@@ -11,7 +11,7 @@
 <div class="grid gap-4">
     <div>
         <label class="block text-sm font-medium">Titre</label>
-        <input name="title" value="{{ old('title', $post->title ?? '') }}" class="mt-1 w-full rounded-md border-gray-300" required />
+        <input name="title" value="{{ old('title', $post->titre ?? '') }}" class="mt-1 w-full rounded-md border-gray-300" required />
     </div>
     <div>
         <label class="block text-sm font-medium">Slug</label>
@@ -22,7 +22,7 @@
         <select name="category_id" class="mt-1 w-full rounded-md border-gray-300" required>
             @foreach ($categories as $category)
                 <option value="{{ $category->id }}" @selected((int) old('category_id', $post->category_id ?? 0) === $category->id)>
-                    {{ $category->name }}
+                    {{ $category->nom }}
                 </option>
             @endforeach
         </select>
@@ -34,13 +34,13 @@
         @endphp
         <select name="tags[]" multiple class="mt-1 w-full rounded-md border-gray-300">
             @foreach ($tags as $tag)
-                <option value="{{ $tag->id }}" @selected(in_array($tag->id, $selectedTags, true))>{{ $tag->name }}</option>
+                <option value="{{ $tag->id }}" @selected(in_array($tag->id, $selectedTags, true))>{{ $tag->nom }}</option>
             @endforeach
         </select>
     </div>
     <div>
         <label class="block text-sm font-medium">Extrait</label>
-        <textarea name="excerpt" rows="2" class="mt-1 w-full rounded-md border-gray-300">{{ old('excerpt', $post->excerpt ?? '') }}</textarea>
+        <textarea name="excerpt" rows="2" class="mt-1 w-full rounded-md border-gray-300">{{ old('excerpt', $post->resume ?? '') }}</textarea>
     </div>
     <div>
         <label class="block text-sm font-medium">Image de couverture (obligatoire)</label>
@@ -74,7 +74,7 @@
         <label class="block text-sm font-medium">Contenu (éditeur riche)</label>
         <input type="hidden" name="content_html" value="{{ old('content_html', $post->content_html ?? '') }}">
         <div id="tiptap-editor" class="article-body mt-1 min-h-[200px] rounded-md border border-gray-300 bg-white p-3 prose max-w-none"></div>
-        <textarea name="content" rows="8" class="mt-2 w-full rounded-md border-gray-300" required>{{ old('content', $post->content ?? '') }}</textarea>
+        <textarea name="content" rows="8" class="mt-2 w-full rounded-md border-gray-300" required>{{ old('content', $post->contenu ?? '') }}</textarea>
     </div>
     <div>
         <label class="block text-sm font-medium">URL YouTube (embed)</label>
@@ -132,17 +132,17 @@
     <div class="flex flex-wrap items-center gap-4">
         <label class="inline-flex items-center gap-2">
             <input type="hidden" name="is_published" value="0">
-            <input type="checkbox" id="is_published" name="is_published" value="1" @checked((bool) old('is_published', $post->is_published ?? true))>
+            <input type="checkbox" id="is_published" name="is_published" value="1" @checked((bool) old('is_published', $post->est_publie ?? true))>
             <span>Publier</span>
         </label>
         <label class="inline-flex items-center gap-2">
             <input type="hidden" name="is_pinned" value="0">
-            <input type="checkbox" name="is_pinned" value="1" @checked((bool) old('is_pinned', $post->is_pinned ?? false))>
+            <input type="checkbox" name="is_pinned" value="1" @checked((bool) old('is_pinned', $post->est_epingle ?? false))>
             <span>Épingler</span>
         </label>
         <label class="inline-flex items-center gap-2">
             <input type="hidden" name="is_featured" value="0">
-            <input type="checkbox" name="is_featured" value="1" @checked((bool) old('is_featured', $post->is_featured ?? false))>
+            <input type="checkbox" name="is_featured" value="1" @checked((bool) old('is_featured', $post->est_a_la_une ?? false))>
             <span>À la une</span>
         </label>
     </div>
@@ -151,7 +151,7 @@
         <input
             type="datetime-local"
             name="published_at"
-            value="{{ old('published_at', isset($post->published_at) ? $post->published_at->format('Y-m-d\TH:i') : '') }}"
+            value="{{ old('published_at', isset($post->publie_le) ? $post->publie_le->format('Y-m-d\TH:i') : '') }}"
             class="mt-1 w-full rounded-md border-gray-300"
         />
     </div>

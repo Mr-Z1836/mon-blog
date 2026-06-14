@@ -31,7 +31,7 @@
                 @forelse ($comments as $comment)
                     <div class="border-b pb-4">
                         <p class="text-sm text-gray-500">
-                            {{ $comment->user->name }} - <a class="text-brand-red" href="{{ route('admin.posts.edit', $comment->post) }}">{{ $comment->post->titre }}</a>
+                            {{ $comment->user->username ? '@'.$comment->user->username : $comment->user->name }} - <a class="text-brand-red" href="{{ route('admin.posts.edit', $comment->post) }}">{{ $comment->post->titre }}</a>
                         </p>
                         <p class="mt-2 text-sm text-gray-700">{{ $comment->contenu }}</p>
                         @if ($comment->pending_reports_count > 0)

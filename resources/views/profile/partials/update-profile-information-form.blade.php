@@ -24,6 +24,13 @@
         </div>
 
         <div>
+            <x-input-label for="username" value="Pseudo" />
+            <x-text-input id="username" name="username" type="text" class="mt-1 block w-full" :value="old('username', $user->username)" required autocomplete="nickname" autocapitalize="off" spellcheck="false" pattern="[a-z0-9_]+" />
+            <p class="mt-1 text-xs text-gray-500">Visible dans tes commentaires (@pseudo).</p>
+            <x-input-error class="mt-2" :messages="$errors->get('username')" />
+        </div>
+
+        <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />

@@ -1,8 +1,9 @@
 ﻿<div class="{{ $depth > 0 ? 'ms-6 border-s-2 border-slate-200 ps-4 dark:border-slate-700' : '' }} border-b border-slate-200 pb-3 dark:border-slate-700">
     <p class="text-sm font-medium text-slate-900 dark:text-slate-100">
-        {{ $comment->user->name }}
         @if ($comment->user->username)
-            <span class="text-slate-500">@{{ $comment->user->username }}</span>
+            <span class="text-brand-red">@{{ $comment->user->username }}</span>
+        @else
+            {{ $comment->user->name }}
         @endif
         @if ($comment->mentionedUser)
             <span class="text-brand-red">→ @{{ $comment->mentionedUser->username ?? $comment->mentionedUser->name }}</span>

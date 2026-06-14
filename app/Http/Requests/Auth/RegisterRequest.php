@@ -1,14 +1,19 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
 use App\Models\User;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
-class ProfileUpdateRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     protected function prepareForValidation(): void
     {
         if ($this->filled('username')) {
@@ -18,11 +23,6 @@ class ProfileUpdateRequest extends FormRequest
         }
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
@@ -33,23 +33,19 @@ class ProfileUpdateRequest extends FormRequest
                 'min:3',
                 'max:50',
                 'regex:/^[a-z0-9_]+$/',
-                Rule::unique(User::class, 'username')->ignore($this->user()->id),
+                Rule::unique(User::class, 'username'),
             ],
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($this->user()->id),
-            ],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'username.required' => 'Choisis un pseudo.',
+            'username.required' => 'Choisis un pseudo pour commenter sur le blog.',
+            'username.min' => 'Le pseudo doit contenir au moins :min caractères.',
+            'username.max' => 'Le pseudo ne peut pas dépasser :max caractères.',
             'username.regex' => 'Le pseudo ne peut contenir que des lettres minuscules, des chiffres et des underscores.',
             'username.unique' => 'Ce pseudo est déjà pris.',
         ];

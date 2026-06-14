@@ -16,6 +16,10 @@
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
+            @if (auth()->check() && auth()->user()->est_administrateur && request()->routeIs('admin.*'))
+                <x-admin-nav />
+            @endif
+
             <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white shadow">

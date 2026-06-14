@@ -20,14 +20,24 @@ class CommentController extends Controller
     public function index(Request $request): View
     {
         $articleId = $request->integer('article');
+        $statut = $request->string('statut')->toString();
+        $statut = in_array($statut, ['en_attente', 'approuves'], true) ? $statut : 'tous';
 
         return view('admin.comments.index', [
             'comments' => Comment::query()
-                ->with(['post:id,titre,slug', 'user:id,name'])
+                ->with([
+                    'post:id,titre,slug',
+                    'user:id,name,username',
+                    'parent:id,contenu,user_id',
+                    'parent.user:id,name,username',
+                    'mentionedUser:id,name,username',
+                ])
                 ->withCount([
                     'reports as pending_reports_count' => fn ($query) => $query->where('statut', 'en_attente'),
                 ])
                 ->when($articleId > 0, fn ($query) => $query->where('post_id', $articleId))
+                ->when($statut === 'en_attente', fn ($query) => $query->where('est_approuve', false))
+                ->when($statut === 'approuves', fn ($query) => $query->where('est_approuve', true))
                 ->latest()
                 ->paginate(20)
                 ->withQueryString(),
@@ -36,6 +46,12 @@ class CommentController extends Controller
                 ->orderBy('titre')
                 ->get(['id', 'titre']),
             'selectedArticle' => $articleId > 0 ? $articleId : null,
+            'selectedStatut' => $statut,
+            'stats' => [
+                'total' => Comment::count(),
+                'pending' => Comment::where('est_approuve', false)->count(),
+                'approved' => Comment::where('est_approuve', true)->count(),
+            ],
         ]);
     }
 

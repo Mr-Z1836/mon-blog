@@ -17,13 +17,21 @@ class CommentReportController extends Controller
 
         return view('admin.reports.index', [
             'reports' => CommentReport::query()
-                ->with(['comment.post:id,titre,slug', 'comment.user:id,name', 'reporter:id,name'])
+                ->with([
+                    'comment.post:id,titre,slug',
+                    'comment.user:id,name,username',
+                    'comment.parent:id,contenu,user_id',
+                    'comment.parent.user:id,name,username',
+                    'reporter:id,name',
+                ])
                 ->when($commentId > 0, fn ($query) => $query->where('comment_id', $commentId))
                 ->latest()
                 ->paginate(20)
                 ->withQueryString(),
             'selectedComment' => $commentId > 0
-                ? Comment::query()->with('post:id,titre')->find($commentId)
+                ? Comment::query()
+                    ->with(['post:id,titre', 'user:id,name,username', 'parent.user:id,name,username'])
+                    ->find($commentId)
                 : null,
         ]);
     }

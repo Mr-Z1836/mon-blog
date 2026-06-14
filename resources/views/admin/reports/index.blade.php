@@ -5,8 +5,15 @@
 
         @if ($selectedComment)
             <div class="rounded-lg bg-white p-4 shadow text-sm text-gray-600">
-                Filtre actif : commentaire de <strong>{{ $selectedComment->user->name }}</strong>
+                Filtre actif : commentaire de
+                <strong>{{ $selectedComment->user->username ? '@'.$selectedComment->user->username : $selectedComment->user->name }}</strong>
                 sur « {{ $selectedComment->post->titre }} ».
+                @if ($selectedComment->parent)
+                    <span class="block mt-1 text-gray-500">
+                        Réponse à {{ $selectedComment->parent->user->username ? '@'.$selectedComment->parent->user->username : $selectedComment->parent->user->name }} :
+                        « {{ \Illuminate\Support\Str::limit($selectedComment->parent->contenu, 120) }} »
+                    </span>
+                @endif
                 <a href="{{ route('admin.reports.index') }}" class="ml-2 text-brand-red underline">Voir tous les signalements</a>
             </div>
         @endif
@@ -14,9 +21,22 @@
         @forelse ($reports as $report)
             <div class="bg-white p-4 shadow rounded-lg">
                 <p class="text-sm text-gray-500">
-                    Article :
+                    Par
+                    <span class="font-medium text-gray-800">
+                        {{ $report->comment->user->username ? '@'.$report->comment->user->username : $report->comment->user->name }}
+                    </span>
+                    · Article :
                     <a class="text-brand-red" href="{{ route('posts.show', $report->comment->post) }}">{{ $report->comment->post->titre }}</a>
                 </p>
+                @if ($report->comment->parent)
+                    <p class="mt-2 rounded-md border border-brand-yellow/30 bg-brand-yellow/5 px-3 py-2 text-sm text-gray-600">
+                        Réponse à
+                        <span class="font-medium text-brand-red">
+                            {{ $report->comment->parent->user->username ? '@'.$report->comment->parent->user->username : $report->comment->parent->user->name }}
+                        </span>
+                        : « {{ \Illuminate\Support\Str::limit($report->comment->parent->contenu, 120) }} »
+                    </p>
+                @endif
                 <p class="mt-2 text-sm text-gray-800">{{ $report->comment->contenu }}</p>
                 <p class="mt-2 text-xs text-gray-500">
                     Signalé par

@@ -10,18 +10,18 @@
                     <p class="text-sm text-gray-500">Articles</p>
                     <p class="text-2xl font-bold">{{ $postsCount }}</p>
                 </div>
-                <div class="rounded-lg bg-white p-5 shadow border-l-4 border-brand-yellow">
+                <a href="{{ route('admin.comments.index', ['statut' => 'en_attente']) }}" class="rounded-lg bg-white p-5 shadow border-l-4 border-brand-yellow hover:bg-brand-yellow/5 block">
                     <p class="text-sm text-gray-500">Commentaires à modérer</p>
                     <p class="text-2xl font-bold">{{ $pendingCommentsCount }}</p>
-                </div>
-                <div class="rounded-lg bg-white p-5 shadow border-l-4 border-brand-red">
+                </a>
+                <a href="{{ route('admin.reports.index') }}" class="rounded-lg bg-white p-5 shadow border-l-4 border-brand-red hover:bg-brand-yellow/5 block">
                     <p class="text-sm text-gray-500">Signalements</p>
                     <p class="text-2xl font-bold">{{ $pendingReportsCount }}</p>
-                </div>
-                <div class="rounded-lg bg-white p-5 shadow border-l-4 border-brand-green">
+                </a>
+                <a href="{{ route('admin.contact-messages.index') }}" class="rounded-lg bg-white p-5 shadow border-l-4 border-brand-green hover:bg-brand-yellow/5 block">
                     <p class="text-sm text-gray-500">Messages contact</p>
                     <p class="text-2xl font-bold">{{ $unreadContactCount }}</p>
-                </div>
+                </a>
                 <div class="rounded-lg bg-white p-5 shadow border-l-4 border-brand-yellow">
                     <p class="text-sm text-gray-500">Abonnés newsletter</p>
                     <p class="text-2xl font-bold">{{ $newsletterSubscribersCount }}</p>

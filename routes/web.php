@@ -83,6 +83,8 @@ Route::middleware('auth')->group(function (): void {
 
     Route::middleware('throttle:20,1')->group(function (): void {
         Route::post('/articles/{post}/comments', [CommentController::class, 'store'])->name('posts.comments.store');
+        Route::patch('/articles/{post}/comments/{comment}', [CommentController::class, 'update'])->name('posts.comments.update');
+        Route::delete('/articles/{post}/comments/{comment}', [CommentController::class, 'destroy'])->name('posts.comments.destroy');
         Route::post('/articles/{post}/ratings', [RatingController::class, 'store'])->name('posts.ratings.store');
     });
 });

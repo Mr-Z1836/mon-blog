@@ -33,15 +33,87 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', updateProgress, { passive: true });
     updateProgress();
 
+    const hideAllInlineForms = () => {
+        document.querySelectorAll('.reply-form-container, .edit-form-container').forEach((container) => {
+            container.classList.add('hidden');
+        });
+    };
+
     document.querySelectorAll('.reply-btn').forEach((button) => {
         button.addEventListener('click', () => {
-            const input = document.getElementById('comment-parent-id');
+            const commentId = button.dataset.parent;
 
-            if (input) {
-                input.value = button.dataset.parent ?? '';
+            if (!commentId) {
+                return;
             }
 
-            document.querySelector('[name="comment_content"]')?.focus();
+            const container = document.querySelector(`.reply-form-container[data-comment-id="${commentId}"]`);
+
+            if (!container) {
+                return;
+            }
+
+            const isOpen = !container.classList.contains('hidden');
+            hideAllInlineForms();
+
+            if (!isOpen) {
+                container.classList.remove('hidden');
+                container.querySelector('textarea')?.focus();
+            }
         });
+    });
+
+    document.querySelectorAll('.reply-cancel-btn').forEach((button) => {
+        button.addEventListener('click', () => {
+            button.closest('.reply-form-container')?.classList.add('hidden');
+        });
+    });
+
+    document.querySelectorAll('.edit-comment-btn').forEach((button) => {
+        button.addEventListener('click', () => {
+            const commentId = button.dataset.commentId;
+
+            if (!commentId) {
+                return;
+            }
+
+            const container = document.querySelector(`.edit-form-container[data-comment-id="${commentId}"]`);
+
+            if (!container) {
+                return;
+            }
+
+            const isOpen = !container.classList.contains('hidden');
+            hideAllInlineForms();
+
+            if (!isOpen) {
+                container.classList.remove('hidden');
+                container.querySelector('textarea')?.focus();
+            }
+        });
+    });
+
+    document.querySelectorAll('.edit-cancel-btn').forEach((button) => {
+        button.addEventListener('click', () => {
+            button.closest('.edit-form-container')?.classList.add('hidden');
+        });
+    });
+
+    document.querySelectorAll('.reply-form-container').forEach((container) => {
+        const textarea = container.querySelector('textarea[name="comment_content"]');
+
+        if (textarea?.value.trim()) {
+            hideAllInlineForms();
+            container.classList.remove('hidden');
+            textarea.focus();
+        }
+    });
+
+    document.querySelectorAll('.edit-form-container').forEach((container) => {
+        if (!container.classList.contains('hidden')) {
+            hideAllInlineForms();
+            container.classList.remove('hidden');
+            container.querySelector('textarea')?.focus();
+        }
     });
 });

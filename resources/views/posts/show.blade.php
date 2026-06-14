@@ -120,16 +120,6 @@
                         <button class="btn-neon">Enregistrer la note</button>
                     </form>
                 </section>
-
-                <section class="glass-card p-5">
-                    <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Commenter</h2>
-                    <form method="POST" action="{{ route('posts.comments.store', $post) }}" class="mt-3 space-y-3">
-                        @csrf
-                        <textarea name="comment_content" rows="3" placeholder="Ton commentaire… Utilise @pseudo pour mentionner" class="w-full rounded-xl border border-slate-200 dark:border-slate-600 dark:bg-slate-800">{{ old('comment_content') }}</textarea>
-                        <input type="hidden" name="parent_id" value="{{ old('parent_id') }}" id="comment-parent-id">
-                        <button class="btn-neon">Envoyer</button>
-                    </form>
-                </section>
             @endauth
 
             @guest
@@ -142,13 +132,29 @@
 
             <section class="glass-card p-5">
                 <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Commentaires</h2>
-                <div class="mt-4 space-y-4">
+                <div id="comments-list" class="mt-4 space-y-4">
                     @forelse ($post->comments as $comment)
                         @include('posts.partials.comment', ['comment' => $comment, 'post' => $post, 'depth' => 0])
                     @empty
                         <p class="text-sm text-slate-600 dark:text-slate-400">Aucun commentaire pour le moment.</p>
                     @endforelse
                 </div>
+
+                @auth
+                    <div class="mt-6 border-t border-slate-200 pt-6 dark:border-slate-700">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Laisser un commentaire</h3>
+                        <form method="POST" action="{{ route('posts.comments.store', $post) }}" class="mt-3 space-y-3">
+                            @csrf
+                            <textarea
+                                name="comment_content"
+                                rows="3"
+                                placeholder="Ton commentaire… Utilise @pseudo pour mentionner"
+                                class="w-full rounded-xl border border-slate-200 dark:border-slate-600 dark:bg-slate-800"
+                            >{{ old('parent_id') ? '' : old('comment_content') }}</textarea>
+                            <button type="submit" class="btn-neon">Envoyer</button>
+                        </form>
+                    </div>
+                @endauth
             </section>
 
             <div class="lg:hidden">

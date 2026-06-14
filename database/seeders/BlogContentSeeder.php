@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\NewsletterSubscriber;
 use App\Models\Post;
-use App\Models\PostView;
 use App\Models\Rating;
 use App\Models\Tag;
 use App\Models\User;
@@ -228,12 +227,6 @@ class BlogContentSeeder extends Seeder
             'mentioned_user_id' => $reader->id,
             'contenu' => '@'.$reader->username.' merci ! N\'hésite pas à partager ton retour d\'expérience.',
             'est_approuve' => true,
-        ]);
-
-        PostView::factory(rand(15, 60))->create([
-            'post_id' => $post->id,
-            'country_code' => \fake()->randomElement(['bj', 'sn', 'ci', 'tg', 'fr', null]),
-            'duration_seconds' => rand(45, 480),
         ]);
     }
 }

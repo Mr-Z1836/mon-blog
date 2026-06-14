@@ -53,7 +53,7 @@
                                     {{ $comment->est_approuve ? 'Masquer' : 'Approuver' }}
                                 </button>
                             </form>
-                            <form method="POST" action="{{ route('admin.comments.destroy', $comment) }}">
+                            <form method="POST" action="{{ route('admin.comments.destroy', $comment) }}" onsubmit="return confirm('Supprimer ce commentaire ?')">
                                 @csrf
                                 @method('DELETE')
                                 <button class="rounded bg-red-600 px-3 py-1 text-white text-sm">Supprimer</button>

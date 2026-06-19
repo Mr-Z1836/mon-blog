@@ -6,11 +6,11 @@
         @if ($selectedComment)
             <div class="rounded-lg bg-white p-4 shadow text-sm text-gray-600">
                 Filtre actif : commentaire de
-                <strong>{{ $selectedComment->user->username ? '@'.$selectedComment->user->username : $selectedComment->user->name }}</strong>
+                <strong>{{ $selectedComment->user->publicHandle() }}</strong>
                 sur « {{ $selectedComment->post->titre }} ».
                 @if ($selectedComment->parent)
                     <span class="block mt-1 text-gray-500">
-                        Réponse à {{ $selectedComment->parent->user->username ? '@'.$selectedComment->parent->user->username : $selectedComment->parent->user->name }} :
+                        Réponse à {{ $selectedComment->parent->user->publicHandle() }} :
                         « {{ \Illuminate\Support\Str::limit($selectedComment->parent->contenu, 120) }} »
                     </span>
                 @endif
@@ -23,7 +23,7 @@
                 <p class="text-sm text-gray-500">
                     Par
                     <span class="font-medium text-gray-800">
-                        {{ $report->comment->user->username ? '@'.$report->comment->user->username : $report->comment->user->name }}
+                        {{ $report->comment->user->publicHandle() }}
                     </span>
                     · Article :
                     <a class="text-brand-red" href="{{ route('posts.show', $report->comment->post) }}">{{ $report->comment->post->titre }}</a>
@@ -32,7 +32,7 @@
                     <p class="mt-2 rounded-md border border-brand-yellow/30 bg-brand-yellow/5 px-3 py-2 text-sm text-gray-600">
                         Réponse à
                         <span class="font-medium text-brand-red">
-                            {{ $report->comment->parent->user->username ? '@'.$report->comment->parent->user->username : $report->comment->parent->user->name }}
+                            {{ $report->comment->parent->user->publicHandle() }}
                         </span>
                         : « {{ \Illuminate\Support\Str::limit($report->comment->parent->contenu, 120) }} »
                     </p>
@@ -41,7 +41,7 @@
                 <p class="mt-2 text-xs text-gray-500">
                     Signalé par
                     @if ($report->reporter)
-                        {{ $report->reporter->name }}
+                        {{ $report->reporter->publicHandle() }}
                     @else
                         un invité
                     @endif

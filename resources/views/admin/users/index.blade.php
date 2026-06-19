@@ -24,7 +24,6 @@
                 <thead class="bg-gray-50 text-left text-gray-600">
                     <tr>
                         <th class="p-3 font-medium">Pseudo</th>
-                        <th class="p-3 font-medium">Nom</th>
                         <th class="p-3 font-medium">Email</th>
                         <th class="p-3 font-medium">Inscrit le</th>
                         <th class="p-3 font-medium text-center">Commentaires</th>
@@ -36,16 +35,11 @@
                     @foreach ($users as $user)
                         <tr class="border-t align-top">
                             <td class="p-3">
-                                @if ($user->username)
-                                    <span class="font-medium text-brand-red">{{ '@'.$user->username }}</span>
-                                @else
-                                    <span class="text-gray-400">—</span>
-                                @endif
+                                <span class="font-medium text-brand-red">{{ $user->publicHandle() }}</span>
                                 @if ($user->id === auth()->id())
                                     <span class="ms-1 rounded bg-brand-green/10 px-1.5 py-0.5 text-xs text-brand-green">toi</span>
                                 @endif
                             </td>
-                            <td class="p-3 text-gray-800">{{ $user->name }}</td>
                             <td class="p-3 text-gray-600">{{ $user->email }}</td>
                             <td class="p-3 text-gray-600 whitespace-nowrap">
                                 {{ $user->created_at->locale(app()->getLocale())->format('d/m/Y') }}
@@ -86,7 +80,7 @@
 
                                 @if ($user->id !== auth()->id())
                                     @php
-                                        $deleteLabel = $user->username ? '@'.$user->username : $user->name;
+                                        $deleteLabel = $user->publicHandle();
                                         $deleteImpact = collect([
                                             $user->comments_count > 0 ? $user->comments_count.' commentaire(s)' : null,
                                             $user->posts_count > 0 ? $user->posts_count.' article(s)' : null,

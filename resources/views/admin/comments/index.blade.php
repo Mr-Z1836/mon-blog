@@ -20,7 +20,7 @@
             @if ($selectedUser)
                 <div class="rounded-lg bg-white p-4 shadow text-sm text-gray-600">
                     Filtre actif : commentaires de
-                    <strong>{{ $selectedUser->username ? '@'.$selectedUser->username : $selectedUser->name }}</strong>.
+                    <strong>{{ $selectedUser->publicHandle() }}</strong>.
                     <a href="{{ route('admin.comments.index', array_filter(['article' => $selectedArticle])) }}" class="ms-2 text-brand-red underline">Retirer le filtre utilisateur</a>
                 </div>
             @endif
@@ -55,7 +55,7 @@
                     ])>
                         <div class="flex flex-wrap items-center gap-2 text-sm text-gray-500">
                             <span class="font-medium text-gray-800">
-                                {{ $comment->user->username ? '@'.$comment->user->username : $comment->user->name }}
+                                {{ $comment->user->publicHandle() }}
                             </span>
                             <span aria-hidden="true">·</span>
                             <span>{{ $comment->created_at->locale(app()->getLocale())->diffForHumans() }}</span>
@@ -74,7 +74,7 @@
                                 <p class="font-medium text-gray-700">
                                     Réponse à
                                     <span class="text-brand-red">
-                                        {{ $comment->parent->user->username ? '@'.$comment->parent->user->username : $comment->parent->user->name }}
+                                        {{ $comment->parent->user->publicHandle() }}
                                     </span>
                                 </p>
                                 <p class="mt-1 text-gray-500 line-clamp-2">« {{ \Illuminate\Support\Str::limit($comment->parent->contenu, 160) }} »</p>
@@ -83,7 +83,7 @@
                             <p class="mt-2 text-sm text-gray-600">
                                 Mention de
                                 <span class="font-medium text-brand-red">
-                                    {{ $comment->mentionedUser->username ? '@'.$comment->mentionedUser->username : $comment->mentionedUser->name }}
+                                    {{ $comment->mentionedUser->publicHandle() }}
                                 </span>
                             </p>
                         @endif

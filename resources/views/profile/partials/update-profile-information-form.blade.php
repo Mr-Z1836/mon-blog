@@ -18,26 +18,16 @@
         @method('patch')
 
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
-        </div>
-
-        <div>
             <x-input-label value="Pseudo" />
             <p class="mt-1 text-sm text-gray-800">
-                @if ($user->username)
-                    <span class="font-medium text-brand-red">{{ '@'.$user->username }}</span>
-                @else
-                    <span class="text-gray-500">—</span>
-                @endif
+                <span class="font-medium text-brand-red">{{ $user->publicHandle() }}</span>
             </p>
             <p class="mt-1 text-xs text-gray-500">Le pseudo est défini à l'inscription et ne peut plus être modifié.</p>
         </div>
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autofocus autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())

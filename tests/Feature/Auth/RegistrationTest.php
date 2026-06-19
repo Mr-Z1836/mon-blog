@@ -19,7 +19,6 @@ class RegistrationTest extends TestCase
     public function test_new_users_can_register(): void
     {
         $response = $this->post('/register', [
-            'name' => 'Test User',
             'username' => 'test_user',
             'email' => 'test@example.com',
             'password' => 'password',
@@ -31,6 +30,7 @@ class RegistrationTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email' => 'test@example.com',
             'username' => 'test_user',
+            'name' => 'test_user',
             'email_verified_at' => null,
         ]);
     }

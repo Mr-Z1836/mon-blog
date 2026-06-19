@@ -24,6 +24,15 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new VerifyEmailNotification);
     }
 
+    public function publicHandle(): string
+    {
+        if ($this->username) {
+            return '@'.$this->username;
+        }
+
+        return $this->name;
+    }
+
     /**
      * Get the attributes that should be cast.
      *

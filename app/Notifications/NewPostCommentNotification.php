@@ -27,8 +27,8 @@ class NewPostCommentNotification extends Notification
 
         return (new MailMessage)
             ->subject('Nouveau commentaire sur « '.$this->comment->post->titre.' »')
-            ->greeting('Bonjour '.$notifiable->name.',')
-            ->line($this->comment->user->name.' a commenté ton article.')
+            ->greeting('Bonjour '.$notifiable->publicHandle().',')
+            ->line($this->comment->user->publicHandle().' a commenté ton article.')
             ->line('« '.\Illuminate\Support\Str::limit($this->comment->contenu, 200).' »')
             ->action('Voir l\'article', route('posts.show', $this->comment->post));
     }

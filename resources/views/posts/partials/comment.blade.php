@@ -1,5 +1,5 @@
 ﻿@php
-    $replyPlaceholder = 'Répondre à '.($comment->user->username ? '@'.$comment->user->username : $comment->user->name).'…';
+    $replyPlaceholder = 'Répondre à '.$comment->user->publicHandle().'…';
     $isOwner = auth()->id() === $comment->user_id;
     $showEditForm = $isOwner && $errors->any() && (int) old('_comment_id') === $comment->id;
     $showReplyForm = ! $isOwner && $errors->any() && (int) old('parent_id') === $comment->id;
@@ -10,14 +10,10 @@
     data-comment-id="{{ $comment->id }}"
 >
     <p class="text-sm font-medium text-slate-900 dark:text-slate-100">
-        @if ($comment->user->username)
-            <span class="text-brand-red">{{ '@'.$comment->user->username }}</span>
-        @else
-            {{ $comment->user->name }}
-        @endif
+        <span class="text-brand-red">{{ $comment->user->publicHandle() }}</span>
         <span class="font-normal text-slate-500">· {{ $comment->created_at->locale(app()->getLocale())->diffForHumans() }}</span>
         @if ($comment->mentionedUser)
-            <span class="text-brand-red"> → {{ '@'.($comment->mentionedUser->username ?? $comment->mentionedUser->name) }}</span>
+            <span class="text-brand-red"> → {{ $comment->mentionedUser->publicHandle() }}</span>
         @endif
     </p>
     <p class="comment-body mt-1 text-sm text-slate-600 dark:text-slate-400">{!! \App\Support\CommentMentions::formatContent($comment->contenu) !!}</p>

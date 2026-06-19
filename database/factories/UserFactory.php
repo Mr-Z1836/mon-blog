@@ -24,9 +24,11 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $username = strtolower(preg_replace('/[^a-z0-9_]/', '_', $this->faker->unique()->userName()));
+
         return [
-            'name' => $this->faker->name(),
-            'username' => $this->faker->unique()->userName(),
+            'name' => $username,
+            'username' => $username,
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),

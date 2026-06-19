@@ -17,7 +17,18 @@
                 <div class="rounded bg-green-100 p-3 text-green-800">{{ session('status') }}</div>
             @endif
 
+            @if ($selectedUser)
+                <div class="rounded-lg bg-white p-4 shadow text-sm text-gray-600">
+                    Filtre actif : commentaires de
+                    <strong>{{ $selectedUser->username ? '@'.$selectedUser->username : $selectedUser->name }}</strong>.
+                    <a href="{{ route('admin.comments.index', array_filter(['article' => $selectedArticle])) }}" class="ms-2 text-brand-red underline">Retirer le filtre utilisateur</a>
+                </div>
+            @endif
+
             <form method="GET" action="{{ route('admin.comments.index') }}" class="rounded-lg bg-white p-4 shadow flex flex-wrap items-end gap-3">
+                @if ($selectedUser)
+                    <input type="hidden" name="utilisateur" value="{{ $selectedUser->id }}">
+                @endif
                 <div class="min-w-[16rem] flex-1">
                     <label for="article" class="block text-sm font-medium text-gray-700">Filtrer par article</label>
                     <select id="article" name="article" class="mt-1 w-full rounded-md border-gray-300 text-sm">
@@ -30,7 +41,7 @@
                     </select>
                 </div>
                 <button type="submit" class="rounded bg-brand-green px-4 py-2 text-sm text-white">Filtrer</button>
-                @if ($selectedArticle)
+                @if ($selectedArticle || $selectedUser)
                     <a href="{{ route('admin.comments.index') }}" class="rounded border border-gray-300 px-4 py-2 text-sm text-gray-700">Réinitialiser</a>
                 @endif
             </form>

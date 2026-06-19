@@ -7,13 +7,17 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
     public function index(): View
     {
         return view('admin.users.index', [
-            'users' => User::query()->latest()->paginate(20),
+            'users' => User::query()
+                ->withCount(['comments', 'posts'])
+                ->latest()
+                ->paginate(20),
         ]);
     }
 
@@ -21,8 +25,19 @@ class UserController extends Controller
     {
         $data = $request->validate([
             'is_admin' => ['nullable', 'boolean'],
-            'username' => ['nullable', 'string', 'max:50', 'unique:users,username,'.$user->id],
+            'username' => [
+                'required',
+                'string',
+                'min:3',
+                'max:50',
+                'regex:/^[a-z0-9_]+$/',
+                Rule::unique('users', 'username')->ignore($user->id),
+            ],
+        ], [
+            'username.regex' => 'Le pseudo ne peut contenir que des lettres minuscules, des chiffres et des underscores.',
         ]);
+
+        $data['username'] = strtolower($data['username']);
 
         if ($user->id === $request->user()->id && ! ($data['is_admin'] ?? false)) {
             return back()->withErrors(['is_admin' => 'Tu ne peux pas retirer ton propre accès admin.']);
@@ -30,7 +45,7 @@ class UserController extends Controller
 
         $user->update([
             'est_administrateur' => (bool) ($data['is_admin'] ?? false),
-            'username' => $data['username'] ?? $user->username,
+            'username' => $data['username'],
         ]);
 
         return back()->with('status', 'Utilisateur mis à jour.');

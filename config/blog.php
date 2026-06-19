@@ -22,7 +22,7 @@ return [
     */
     'preserved_user_emails' => array_values(array_filter(array_map(
         static fn (string $email) => strtolower(trim($email)),
-        explode(',', (string) env('BLOG_PRESERVED_USER_EMAILS', 'harrydedji@gmail.com'))
+        explode(',', (string) env('BLOG_PRESERVED_USER_EMAILS', 'harrydedji@gmail.com,millenium@gmail.com,exau@gmail.com'))
     ))),
 
 ];

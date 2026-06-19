@@ -1,4 +1,4 @@
-﻿@extends('layouts.blog')
+@extends('layouts.blog')
 
 @section('meta_title', 'Contact — Built in Benin by Harry DEDJI')
 @section('meta_description', 'Contacte Harry DEDJI via Built in Benin by Harry DEDJI : questions, collaborations, suggestions d\'articles.')

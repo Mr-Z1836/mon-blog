@@ -1,4 +1,4 @@
-﻿@extends('layouts.blog')
+@extends('layouts.blog')
 
 @php
     $seoDescription = $post->meta_description ?: ($post->resume ?: \Illuminate\Support\Str::limit(strip_tags($post->contenu), 160));
@@ -48,6 +48,14 @@
             @if (session('status'))
                 <div class="glass-card border-brand-green/40 p-3 text-brand-green dark:text-brand-green">{{ session('status') }}</div>
             @endif
+
+            @if (request()->boolean('verified'))
+                <div class="glass-card border-brand-green/40 p-3 text-brand-green">Votre adresse email est confirmée. Vous pouvez commenter et noter les articles.</div>
+            @endif
+
+            @auth
+                <x-email-verification-alert class="glass-card" />
+            @endauth
 
             @if ($seriesPosts->isNotEmpty())
                 <nav class="glass-card p-4">
@@ -101,10 +109,11 @@
             </article>
 
             @auth
-                @if ($errors->any())
+                @if ($errors->any() && ! $errors->has('email_verification'))
                     <div class="glass-card border-brand-red/40 p-3 text-sm text-brand-red">Merci de corriger les champs invalides.</div>
                 @endif
 
+                @if (auth()->user()->hasVerifiedEmail())
                 <section class="glass-card p-5">
                     <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Ta note</h2>
                     <form method="POST" action="{{ route('posts.ratings.store', $post) }}" class="mt-3 space-y-3">
@@ -120,6 +129,7 @@
                         <button class="btn-neon">Enregistrer la note</button>
                     </form>
                 </section>
+                @endif
             @endauth
 
             @guest
@@ -141,6 +151,7 @@
                 </div>
 
                 @auth
+                    @if (auth()->user()->hasVerifiedEmail())
                     <div class="mt-6 border-t border-slate-200 pt-6 dark:border-slate-700">
                         <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Laisser un commentaire</h3>
                         <form method="POST" action="{{ route('posts.comments.store', $post) }}" class="mt-3 space-y-3">
@@ -154,6 +165,7 @@
                             <button type="submit" class="btn-neon">Envoyer</button>
                         </form>
                     </div>
+                    @endif
                 @endauth
             </section>
 

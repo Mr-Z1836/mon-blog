@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
                 'username' => 'starboy',
                 'password' => \Illuminate\Support\Facades\Hash::make('password'),
                 'est_administrateur' => true,
+                'email_verified_at' => now(),
             ]
         );
 

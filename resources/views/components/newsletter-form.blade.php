@@ -1,4 +1,4 @@
-﻿@props(['source' => 'sidebar', 'compact' => false])
+@props(['source' => 'sidebar', 'compact' => false])
 
 <div {{ $attributes->merge(['class' => 'glass-card p-5']) }}>
     <p class="text-xs uppercase tracking-[0.2em] text-brand-yellow">Newsletter</p>

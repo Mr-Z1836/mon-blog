@@ -7,8 +7,14 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 
 class VerifyEmailNotification extends VerifyEmail
 {
-    public function toMail(object $notifiable): VerifyEmailMail
+    /**
+     * @param  mixed  $notifiable
+     */
+    public function toMail($notifiable)
     {
-        return new VerifyEmailMail($this->verificationUrl($notifiable));
+        $verificationUrl = $this->verificationUrl($notifiable);
+
+        return (new VerifyEmailMail($verificationUrl))
+            ->to($notifiable->getEmailForVerification());
     }
 }

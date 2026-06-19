@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Mail\VerifyEmailMail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
@@ -18,6 +20,8 @@ class RegistrationTest extends TestCase
 
     public function test_new_users_can_register(): void
     {
+        Mail::fake();
+
         $response = $this->post('/register', [
             'username' => 'test_user',
             'email' => 'test@example.com',
@@ -33,5 +37,9 @@ class RegistrationTest extends TestCase
             'name' => 'test_user',
             'email_verified_at' => null,
         ]);
+
+        Mail::assertSent(VerifyEmailMail::class, function (VerifyEmailMail $mail): bool {
+            return str_contains($mail->verificationUrl, 'verify-email');
+        });
     }
 }

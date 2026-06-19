@@ -19,9 +19,9 @@ php artisan db:seed   # optionnel : données de démo
 php artisan serve
 ```
 
-Comptes démo (après seed) : `harrydedji@gmail.com` / `password` (Starboy, admin) — `test@example.com` / `password`
+Compte admin (après seed) : `harrydedji@gmail.com` / `password` — Harry DEDJI (`@starboy`)
 
-Le seeder crée **5 catégories**, **15 tags**, **17 articles** longs (contexte Bénin/Afrique) et **2 séries**.
+Le seeder crée **6 catégories**, **15 tags** et **6 articles** contextualisés Bénin/Afrique. Aucun utilisateur fictif ni abonné newsletter inventé.
 
 Bases MySQL : exécuter `scripts/create-databases.sql` si besoin.
 

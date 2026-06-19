@@ -12,21 +12,15 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        $admin = User::factory()->create([
-            'name' => 'Starboy',
-            'username' => 'starboy',
-            'email' => 'harrydedji@gmail.com',
-            'est_administrateur' => true,
-        ]);
-
-        $reader = User::factory()->create([
-            'name' => 'Amina K.',
-            'username' => 'amina_k',
-            'email' => 'test@example.com',
-            'est_administrateur' => false,
-        ]);
-
-        User::factory(8)->create();
+        User::query()->updateOrCreate(
+            ['email' => 'harrydedji@gmail.com'],
+            [
+                'name' => 'Harry DEDJI',
+                'username' => 'starboy',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                'est_administrateur' => true,
+            ]
+        );
 
         $this->call(BlogContentSeeder::class);
     }

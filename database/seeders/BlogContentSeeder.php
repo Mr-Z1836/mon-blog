@@ -3,10 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use App\Models\Comment;
-use App\Models\NewsletterSubscriber;
 use App\Models\Post;
-use App\Models\Rating;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -17,12 +14,10 @@ class BlogContentSeeder extends Seeder
     public function run(): void
     {
         $admin = User::query()->where('email', 'harrydedji@gmail.com')->firstOrFail();
-        $reader = User::query()->where('email', 'test@example.com')->firstOrFail();
 
         $categories = $this->seedCategories();
         $tags = $this->seedTags();
-        $this->seedArticles($categories, $tags, $admin, $reader);
-        $this->seedNewsletterSubscribers();
+        $this->seedArticles($categories, $tags, $admin);
     }
 
     /**
@@ -87,7 +82,10 @@ class BlogContentSeeder extends Seeder
 
         foreach ($names as $name) {
             $slug = Str::slug($name);
-            $tags[$slug] = Tag::create(['nom' => $name, 'slug' => $slug]);
+            $tags[$slug] = Tag::firstOrCreate(
+                ['slug' => $slug],
+                ['nom' => $name]
+            );
         }
 
         return $tags;
@@ -97,7 +95,7 @@ class BlogContentSeeder extends Seeder
      * @param  array<string, Category>  $categories
      * @param  array<string, Tag>  $tags
      */
-    private function seedArticles(array $categories, array $tags, User $admin, User $reader): void
+    private function seedArticles(array $categories, array $tags, User $admin): void
     {
         $articles = BlogArticleLibrary::definitions();
 
@@ -106,27 +104,29 @@ class BlogContentSeeder extends Seeder
 
             $cta = $article['cta'] ?? $this->defaultCta($article['category']);
 
-            $post = Post::create([
-                'user_id' => $admin->id,
-                'category_id' => $category->id,
-                'post_series_id' => null,
-                'series_part' => null,
-                'titre' => $article['title'],
-                'slug' => $article['slug'],
-                'resume' => $article['excerpt'],
-                'meta_title' => $article['title'].' — Built in Benin',
-                'meta_description' => $article['excerpt'],
-                'cta_title' => $cta['title'],
-                'cta_text' => $cta['text'],
-                'cta_url' => $cta['url'],
-                'image_path' => $article['image_path'] ?? 'posts/images/default-cover.svg',
-                'contenu' => $article['content'],
-                'youtube_url' => $article['youtube_url'] ?? null,
-                'est_publie' => true,
-                'est_epingle' => $article['is_pinned'] ?? false,
-                'est_a_la_une' => $article['is_featured'] ?? false,
-                'publie_le' => now()->subDays(20 - $index),
-            ]);
+            $post = Post::updateOrCreate(
+                ['slug' => $article['slug']],
+                [
+                    'user_id' => $admin->id,
+                    'category_id' => $category->id,
+                    'post_series_id' => null,
+                    'series_part' => null,
+                    'titre' => $article['title'],
+                    'resume' => $article['excerpt'],
+                    'meta_title' => $article['title'].' — Built in Benin',
+                    'meta_description' => $article['excerpt'],
+                    'cta_title' => $cta['title'],
+                    'cta_text' => $cta['text'],
+                    'cta_url' => $cta['url'],
+                    'image_path' => $article['image_path'] ?? 'posts/images/default-cover.svg',
+                    'contenu' => $article['content'],
+                    'youtube_url' => $article['youtube_url'] ?? null,
+                    'est_publie' => true,
+                    'est_epingle' => $article['is_pinned'] ?? false,
+                    'est_a_la_une' => $article['is_featured'] ?? false,
+                    'publie_le' => now()->subDays(20 - $index),
+                ]
+            );
 
             $tagIds = collect($article['tags'])
                 ->map(fn (string $slug) => $tags[$slug]->id ?? null)
@@ -135,7 +135,6 @@ class BlogContentSeeder extends Seeder
                 ->all();
 
             $post->tags()->sync($tagIds);
-            $this->seedInteractions($post, $admin, $reader);
         }
     }
 
@@ -152,7 +151,7 @@ class BlogContentSeeder extends Seeder
             ],
             'entrepreneuriat' => [
                 'title' => 'Tu lances un projet ?',
-                'text' => 'Écris à Starboy',
+                'text' => 'Écris à Harry',
                 'url' => route('contact'),
             ],
             'crypto-finance' => [
@@ -181,52 +180,5 @@ class BlogContentSeeder extends Seeder
                 'url' => route('posts.index'),
             ],
         };
-    }
-
-    private function seedNewsletterSubscribers(): void
-    {
-        $emails = [
-            ['email' => 'amina.newsletter@example.com', 'source' => 'sidebar'],
-            ['email' => 'dev.benin@example.com', 'source' => 'article'],
-            ['email' => 'startup.cotonou@example.com', 'source' => 'home'],
-            ['email' => 'lecteur.afrique@example.com', 'source' => 'sidebar'],
-            ['email' => 'tech.youth@example.com', 'source' => 'article'],
-        ];
-
-        foreach ($emails as $entry) {
-            NewsletterSubscriber::create([
-                'email' => $entry['email'],
-                'source' => $entry['source'],
-                'abonne_le' => now()->subDays(rand(1, 30)),
-            ]);
-        }
-    }
-
-    private function seedInteractions(Post $post, User $admin, User $reader): void
-    {
-        $randomUsers = User::inRandomOrder()->limit(rand(2, 5))->get();
-
-        foreach ($randomUsers as $user) {
-            Rating::factory()->create([
-                'post_id' => $post->id,
-                'user_id' => $user->id,
-            ]);
-        }
-
-        $rootComment = Comment::factory()->create([
-            'post_id' => $post->id,
-            'user_id' => $reader->id,
-            'contenu' => 'Super article, très utile pour le contexte africain !',
-            'est_approuve' => true,
-        ]);
-
-        Comment::factory()->create([
-            'post_id' => $post->id,
-            'user_id' => $admin->id,
-            'parent_id' => $rootComment->id,
-            'mentioned_user_id' => $reader->id,
-            'contenu' => '@'.$reader->username.' merci ! N\'hésite pas à partager ton retour d\'expérience.',
-            'est_approuve' => true,
-        ]);
     }
 }

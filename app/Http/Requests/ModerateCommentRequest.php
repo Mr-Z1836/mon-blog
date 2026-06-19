@@ -22,7 +22,7 @@ class ModerateCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'is_approved' => ['required', 'boolean'],
+            'visible' => ['required', 'boolean'],
         ];
     }
 }

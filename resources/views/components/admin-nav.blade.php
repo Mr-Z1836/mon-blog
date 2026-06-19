@@ -1,5 +1,4 @@
 @php
-    $pendingCommentsCount = \App\Models\Comment::query()->where('est_approuve', false)->count();
     $pendingReportsCount = \App\Models\CommentReport::query()->where('statut', 'en_attente')->count();
     $unreadContactCount = \App\Models\ContactMessage::query()->whereNull('lu_le')->count();
 
@@ -18,9 +17,6 @@
 
         <a href="{{ route('admin.comments.index') }}" class="{{ $linkClass(request()->routeIs('admin.comments.*')) }}">
             Commentaires
-            @if ($pendingCommentsCount > 0)
-                <span class="ms-1 rounded-full bg-brand-red px-1.5 py-0.5 text-xs text-white">{{ $pendingCommentsCount }}</span>
-            @endif
         </a>
         <a href="{{ route('admin.reports.index') }}" class="{{ $linkClass(request()->routeIs('admin.reports.*')) }}">
             Signalements

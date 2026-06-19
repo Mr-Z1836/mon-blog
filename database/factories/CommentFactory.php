@@ -34,7 +34,7 @@ class CommentFactory extends Factory
             'post_id' => Post::factory(),
             'user_id' => User::factory(),
             'contenu' => $this->faker->randomElement($sentences),
-            'est_approuve' => $this->faker->boolean(70),
+            'est_approuve' => true,
         ];
     }
 }

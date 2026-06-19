@@ -37,7 +37,7 @@ return [
         'parent_id' => 'commentaire parent',
         'reason' => 'motif',
         'statut' => 'statut',
-        'is_approved' => 'approbation',
+        'visible' => 'visibilité',
         'is_admin' => 'administrateur',
         'value' => 'note',
         'source' => 'source',

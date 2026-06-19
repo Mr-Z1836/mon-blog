@@ -10,9 +10,9 @@
                     <p class="text-sm text-gray-500">Articles</p>
                     <p class="text-2xl font-bold">{{ $postsCount }}</p>
                 </div>
-                <a href="{{ route('admin.comments.index', ['statut' => 'en_attente']) }}" class="rounded-lg bg-white p-5 shadow border-l-4 border-brand-yellow hover:bg-brand-yellow/5 block">
-                    <p class="text-sm text-gray-500">Commentaires à modérer</p>
-                    <p class="text-2xl font-bold">{{ $pendingCommentsCount }}</p>
+                <a href="{{ route('admin.comments.index') }}" class="rounded-lg bg-white p-5 shadow border-l-4 border-brand-yellow hover:bg-brand-yellow/5 block">
+                    <p class="text-sm text-gray-500">Commentaires</p>
+                    <p class="text-2xl font-bold">{{ $commentsCount }}</p>
                 </a>
                 <a href="{{ route('admin.reports.index') }}" class="rounded-lg bg-white p-5 shadow border-l-4 border-brand-red hover:bg-brand-yellow/5 block">
                     <p class="text-sm text-gray-500">Signalements</p>

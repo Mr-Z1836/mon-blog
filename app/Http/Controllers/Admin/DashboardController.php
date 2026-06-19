@@ -53,7 +53,7 @@ class DashboardController extends Controller
         return view('admin.dashboard', [
             'categories' => $categories,
             'postsCount' => Post::count(),
-            'pendingCommentsCount' => Comment::where('est_approuve', false)->count(),
+            'commentsCount' => Comment::count(),
             'pendingReportsCount' => CommentReport::where('statut', 'en_attente')->count(),
             'unreadContactCount' => ContactMessage::whereNull('lu_le')->count(),
             'newsletterSubscribersCount' => NewsletterSubscriber::query()->active()->count(),

@@ -9,15 +9,6 @@ use Illuminate\Validation\Rule;
 
 class ProfileUpdateRequest extends FormRequest
 {
-    protected function prepareForValidation(): void
-    {
-        if ($this->filled('username')) {
-            $this->merge([
-                'username' => strtolower((string) $this->input('username')),
-            ]);
-        }
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -27,14 +18,6 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'username' => [
-                'required',
-                'string',
-                'min:3',
-                'max:50',
-                'regex:/^[a-z0-9_]+$/',
-                Rule::unique(User::class, 'username')->ignore($this->user()->id),
-            ],
             'email' => [
                 'required',
                 'string',
@@ -43,15 +26,6 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'username.required' => 'Choisis un pseudo.',
-            'username.regex' => 'Le pseudo ne peut contenir que des lettres minuscules, des chiffres et des underscores.',
-            'username.unique' => 'Ce pseudo est déjà pris.',
         ];
     }
 }

@@ -34,7 +34,7 @@
 
         <div class="mt-6 rounded-md bg-brand-yellow/10 p-3 text-center">
             <a href="{{ route('posts.index') }}" class="font-semibold text-brand-red hover:text-brand-red">
-                Je veux juste lire
+                Se connecter en tant que visiteur
             </a>
         </div>
 

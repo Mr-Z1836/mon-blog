@@ -71,21 +71,10 @@
                                     <span class="text-gray-400">Non</span>
                                 @endif
                             </td>
-                            <td class="p-3 min-w-[14rem]">
+                            <td class="p-3 min-w-[10rem]">
                                 <form method="POST" action="{{ route('admin.users.update', $user) }}" class="space-y-2">
                                     @csrf
                                     @method('PUT')
-                                    <div class="flex items-center gap-1">
-                                        <span class="text-gray-400">@</span>
-                                        <input
-                                            name="username"
-                                            value="{{ old('username', $user->username) }}"
-                                            required
-                                            maxlength="50"
-                                            pattern="[a-z0-9_]+"
-                                            class="w-full rounded border-gray-300 text-xs"
-                                        >
-                                    </div>
                                     <label class="flex items-center gap-1.5 text-xs text-gray-700">
                                         <input type="checkbox" name="is_admin" value="1" @checked($user->est_administrateur)>
                                         Administrateur

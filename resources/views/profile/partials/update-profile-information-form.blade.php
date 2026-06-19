@@ -24,10 +24,15 @@
         </div>
 
         <div>
-            <x-input-label for="username" value="Pseudo" />
-            <x-text-input id="username" name="username" type="text" class="mt-1 block w-full" :value="old('username', $user->username)" required autocomplete="nickname" autocapitalize="off" spellcheck="false" pattern="[a-z0-9_]+" />
-            <p class="mt-1 text-xs text-gray-500">Visible dans tes commentaires (@pseudo).</p>
-            <x-input-error class="mt-2" :messages="$errors->get('username')" />
+            <x-input-label value="Pseudo" />
+            <p class="mt-1 text-sm text-gray-800">
+                @if ($user->username)
+                    <span class="font-medium text-brand-red">{{ '@'.$user->username }}</span>
+                @else
+                    <span class="text-gray-500">—</span>
+                @endif
+            </p>
+            <p class="mt-1 text-xs text-gray-500">Le pseudo est défini à l'inscription et ne peut plus être modifié.</p>
         </div>
 
         <div>
